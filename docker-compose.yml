@@ -7,6 +7,8 @@ services:
       - tcs-network
   backend:
     build: server
+    env_file:
+      - ./server/config.env
     ports:
       - "5050:5050"
     networks:
