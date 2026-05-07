@@ -17,6 +17,12 @@ Make sure Docker Desktop is running before continuing.
 
 ---
 
+## Clone the Repo
+
+Clone this repository with `git clone https://github.com/KallosP/TradingCardShop.git`.
+
+---
+
 ## Environment Setup
 
 Before running the app, create a file called `config.env` inside the `/server` directory.
