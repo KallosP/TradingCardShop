@@ -29,7 +29,7 @@ Before running the app, create a file called `config.env` inside the `/server` d
 
 Follow the structure of the `config.env.example` file that is included in `/server`.
 
-The values for the envrionment variables will be provided separately.
+The values for the environment variables will be provided separately.
 
 ---
 
