@@ -78,52 +78,23 @@ export default function LoginPage() {
 		}
 	};
 
-    function loginUser(creds) {
-		const promise = fetch(`${backendURL}/login`, {
+	async function submitAuth(creds, endpoint) {
+		const response = await fetch(`${backendURL}${endpoint}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(creds)
-		})
-		.then((response) => {
-            if (response.status === 200) {
-                return response.json();
-            } else {
-                throw "bad creds";
-            }
-        })
-        .catch(() => {
-            throw "login failed";
-        });
+		});
 
-		return promise;
-	}
+		if (!response.ok) {
+			const error = new Error("Authentication failed");
+			error.status = response.status;
+			throw error;
+		}
 
-    function signupUser(creds) {
-		const promise = fetch(`${backendURL}/signup`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(creds)
-		})
-        .then((response) => {
-            if (response.status === 200) {
-                return response.json();
-                /*response.json().then((payload) => {
-                    setToken(payload.token)
-                });*/
-            } else {
-                throw "bad creds";
-            }
-        })
-        .catch((e) => {
-            console.log(e)
-            throw "signup failed";
-        });
-
-		return promise;
+		const data = await response.json();
+		return data;
 	}
 
 
@@ -137,6 +108,7 @@ export default function LoginPage() {
 		}
 
 		setIsLoading(true);
+		setErrors({});
 
 		try {
 			const creds = isLogin
@@ -147,29 +119,24 @@ export default function LoginPage() {
 						password: formData.password,
 				  };
 
-            if(isLogin){
-                loginUser(creds).then((payload) => {
-                    navigate("/home", {
-                        // TODO: decide on what data to pass to /home route/page via state
-				        //state: {currUser: creds.username, userCredId: payload.userCredId, token: payload.token}
-			        });
-                });
-            }
-            else{
-                signupUser(creds).then((payload) => {
-                    console.log(payload)
-                    navigate("/home", {
-                        state: {userId: payload.userId, currUser: payload.username,  
-                            currUserEmail: payload.email, token: payload.token}
-                    })
-                });
-            }
+			const endpoint = isLogin ? "/login" : "/signup";
+			const payload = await submitAuth(creds, endpoint);
 
+			navigate("/home", { state: payload });
 		} catch (error) {
-			console.error("Error:", error);
+            console.log("status", error.status)
+			if (error.status === 409) {
+				setErrors({ email: "A user with this email already exists" });
+			} else {
+				setErrors({
+					email: "Invalid credentials",
+					password: "Invalid credentials"
+				});
+			}
+			console.error(`${isLogin ? "Login" : "Signup"} failed:`, error.message);
 		} finally {
-            setIsLoading(false);
-        }
+			setIsLoading(false);
+		}
 	};
 
     // Toggles between sign in/create account form

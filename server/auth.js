@@ -67,31 +67,32 @@ export function authenticateUser(req, res, next) {
 }
 
 export function loginUser(req, res) {
-	const {username, pwd} = req.body; // from form
-	// FIXME: Change to find user with their ID instead of username?
-	//		 - b/c what if there's two users with same name
-	const promise = credService.findUser(username);
+	const {email, password} = req.body; // from form
+	const promise = userService.findUser(email);
 
 	promise
 		.then((retrievedUser) => {
 			if (!retrievedUser) {
-				// invalid username
+				// invalid email
 				res.status(401).send("Unauthorized");
 			} else {
 				bcrypt
-					.compare(pwd, retrievedUser.hashedPassword)
+					.compare(password, retrievedUser.hashedPassword)
 					.then((matched) => {
 						if (matched) {
-							generateAccessToken(username).then((token) => {
+							generateAccessToken(email).then((token) => {
 								// User's token and their credentials ID
-								res.status(200).send({token: token, userCredId: retrievedUser._id});
+								res.status(200).send({
+                                    token: token, userId: retrievedUser._id, 
+                                    username: retrievedUser.username, email: retrievedUser.email
+                                });
 							});
 						} else {
 							// invalid password
 							res.status(401).send("Unauthorized");
 						}
 					})
-					.catch(() => {
+					.catch((e) => {
 						res.status(401).send("Unauthorized");
 					});
 			}

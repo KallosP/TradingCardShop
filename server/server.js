@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 //import records from "./routes/record.js";
-import { registerUser } from "./auth.js";
+import { loginUser, registerUser } from "./auth.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -25,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/signup", registerUser);
+app.post("/login", loginUser);
 
 // start the Express server
 app.listen(PORT, () => {
