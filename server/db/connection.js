@@ -1,6 +1,12 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
+import dotenv from "dotenv";
+
+// using dotenv for local dev (FIXME: redundant loading of env variables since compose file
+// is already using env_file?)
+dotenv.config({path: "./config.env"});
 
 const uri = process.env.ATLAS_URI || "";
+console.log("uri:", uri);
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,

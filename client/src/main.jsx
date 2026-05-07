@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App";
+import LoginPage from "./pages/LoginPage";
 import Record from "./components/Record";
 import RecordList from "./components/RecordList";
 import "./index.css";
@@ -12,10 +13,14 @@ import "./index.css";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LoginPage/>,
+  },
+  {
+    path: "/home",
     element: <App />,
     children: [
       {
-        path: "/",
+        path: "/home",
         element: <RecordList />,
       },
     ],
