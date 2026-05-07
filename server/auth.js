@@ -34,8 +34,6 @@ export function registerUser(req, res) {
           .then((hashedPassword) => {
             return generateAccessToken(email)
               .then((token) => {
-                // TODO: delete
-                console.log("Token:", token);
                 userService.addUser(username, email, hashedPassword)
                     .then((user) => {
                         console.log("USR", user)
