@@ -1,15 +1,49 @@
 # TradingCardShop
 AVN Corp Technical Exercise
 
-`docker build -t kallosp/tcs-frontend:1.0 .`
+---
 
-`docker run --network=tcs-network --name=frontend -p 5173:5173 kallosp/tcs-frontend:1.0`
+A full-stack web application for browsing and managing trading cards. The app is containerized using Docker and runs using Docker Compose.
 
-`docker network create tcs-network`
+---
 
-`docker run --network=tcs-network --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server:8.0-ubi8`
+## Prerequisites
 
-`docker run --network=tcs-network --name=backend -d -p 5050:5050 kallosp/tcs-backend:1.0`
+You must have Docker Desktop installed.
 
-`docker compose up`
-`docker compose down`
+Download: https://www.docker.com/products/docker-desktop/
+
+Make sure Docker Desktop is running before continuing.
+
+---
+
+## Environment Setup
+
+Before running the app, create a file called `config.env` inside the `/server` directory.
+
+Follow the structure of the `config.env.example` file that is included in `/server`.
+
+---
+
+## Run the Application
+
+In the terminal, run the command `docker compose up` to:
+- Start the frontend container
+- Start the backend container
+- Start the db container
+
+---
+
+## Stop the Application
+
+To stop the app/all running containers, run: `docker compose down`
+
+---
+
+## Notes
+
+- Frontend runs on: http://localhost:5173
+- Backend runs on: http://localhost:5050 
+- MongoDB runs on: http://localhost:27017 
+- Ensure `config.env` is correctly set or the backend will not start
+- Docker Compose is configured to handle networking between services automatically
