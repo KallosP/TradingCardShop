@@ -66,7 +66,7 @@ export default function TradingCardModal({ selectedCard, onClose }) {
                   Description
                 </p>
                 <div className="flex-1 overflow-y-auto pr-2">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed break-words">
                     {selectedCard.description}
                   </p>
                 </div>
