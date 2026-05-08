@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import backendURL from "../constants/url-constants";
+import HeaderSection from '../components/HeaderSection'
 
 export default function CreateCardPage() {
  const [formData, setFormData] = useState({
@@ -158,14 +159,7 @@ export default function CreateCardPage() {
  return (
   <div className="min-h-screen bg-slate-950">
    {/* Header Section */}
-   <div className="border-b border-yellow-600/20 py-8 sm:py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-     <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">Create a Card</h1>
-     <p className="text-gray-400 text-base sm:text-lg">
-      Design your card and publish it to the marketplace.
-     </p>
-    </div>
-   </div>
+   <HeaderSection title="Create a Card" description="Design your card and publish it to the marketplace" />
 
    {/* Main Content */}
    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

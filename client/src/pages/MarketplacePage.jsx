@@ -3,6 +3,7 @@ import backendURL from '../constants/url-constants'
 import LoadingIcon from '../components/LoadingIcon'
 import TradingCard from '../components/TradingCard'
 import TradingCardModal from '../components/TradingCardModal'
+import HeaderSection from '../components/HeaderSection'
 
 export default function MarketplacePage() {
  const [cards, setCards] = useState([])
@@ -41,14 +42,7 @@ export default function MarketplacePage() {
  return (
   <div className="min-h-screen bg-slate-950 pt-0">
    {/* Header Section */}
-   <div className="border-b border-yellow-600/20 py-8 sm:py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-     <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">Marketplace</h1>
-     <p className="text-gray-400 text-base sm:text-lg">
-      Browse custom trading cards created by other users
-     </p>
-    </div>
-   </div>
+   <HeaderSection title="Marketplace" description="Browse custom trading cards created by other users" />
 
    {/* Main Content */}
    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
