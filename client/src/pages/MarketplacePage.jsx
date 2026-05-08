@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react'
 import backendURL from '../constants/url-constants'
 import LoadingIcon from '../components/LoadingIcon'
 import TradingCard from '../components/TradingCard'
+import TradingCardModal from '../components/TradingCardModal'
 
 export default function MarketplacePage() {
  const [cards, setCards] = useState([])
  const [isLoading, setIsLoading] = useState(true)
  const [activeFilter, setActiveFilter] = useState('all')
+ const [selectedCard, setSelectedCard] = useState(null)
 
- const token = localStorage.getItem("token")
- const user = JSON.parse(localStorage.getItem("user"))
+ const token = localStorage.getItem('token')
+ const user = JSON.parse(localStorage.getItem('user'))
 
  // TODO:  use volumes to have image URLs persist in docker? (they are deleted on every rerun,
  // but kept in the database which causes invalid url paths)
@@ -19,13 +21,13 @@ export default function MarketplacePage() {
   const fetchCards = async () => {
    try {
     setIsLoading(true)
-    const response = await fetch(`${backendURL}/cards`);
+    const response = await fetch(`${backendURL}/cards`)
     if (!response.ok) {
-      throw new Error("Failed to fetch cards")
+     throw new Error('Failed to fetch cards')
     }
 
-    const data = await response.json();
-    setCards(data);
+    const data = await response.json()
+    setCards(data)
    } catch (error) {
     console.error('Failed to fetch cards:', error)
    } finally {
@@ -54,8 +56,8 @@ export default function MarketplacePage() {
      /* Loading State */
      <div className="flex items-center justify-center py-20">
       <div className="flex flex-col items-center gap-4">
-        <LoadingIcon/>
-        <p className="text-gray-400">Loading cards...</p>
+       <LoadingIcon />
+       <p className="text-gray-400">Loading cards...</p>
       </div>
      </div>
     ) : cards.length === 0 ? (
@@ -68,11 +70,14 @@ export default function MarketplacePage() {
      /* Cards Grid */
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {cards.map((card) => (
-        <TradingCard key={card._id} card={card} />
+       <TradingCard key={card._id} card={card} onClick={() => setSelectedCard(card)} />
       ))}
      </div>
     )}
    </div>
+
+   {/* Card Modal */}
+   <TradingCardModal selectedCard={selectedCard} onClose={() => setSelectedCard(null)} />
   </div>
  )
 }
