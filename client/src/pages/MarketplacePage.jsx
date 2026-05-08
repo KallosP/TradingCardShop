@@ -5,9 +5,12 @@ export default function MarketplacePage() {
  const [cards, setCards] = useState([])
  const [isLoading, setIsLoading] = useState(true)
  const [activeFilter, setActiveFilter] = useState('all')
- 
- // TODO: use volumes to have image URLs persist in docker? (they are deleted on every rerun,
- //  but kept in the database which causes invalid url paths)
+
+ const token = localStorage.getItem("token")
+ const user = JSON.parse(localStorage.getItem("user"))
+
+ // TODO:  use volumes to have image URLs persist in docker? (they are deleted on every rerun,
+ // but kept in the database which causes invalid url paths)
 
  // Fetch cards from backend - placeholder function
  useEffect(() => {

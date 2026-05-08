@@ -13,39 +13,48 @@ import "./index.css";
 import CreateCardPage from "./pages/CreateCardPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import MyCardsPage from "./pages/MyCardsPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LoginPage/>,
+    element: <LoginPage />,
   },
+
   {
-    path: "/create-card",
-    element: <App />,
+    element: <ProtectedRoute />,
     children: [
       {
         path: "/create-card",
-        element: <CreateCardPage />,
+        element: <App />,
+        children: [
+          {
+            path: "/create-card",
+            element: <CreateCardPage />,
+          },
+        ],
       },
-    ],
-  },
-  {
-    path: "/marketplace",
-    element: <App />,
-    children: [
+
       {
         path: "/marketplace",
-        element: <MarketplacePage />,
+        element: <App />,
+        children: [
+          {
+            path: "/marketplace",
+            element: <MarketplacePage />,
+          },
+        ],
       },
-    ],
-  },
-  {
-    path: "/my-cards",
-    element: <App />,
-    children: [
+
       {
         path: "/my-cards",
-        element: <MyCardsPage />,
+        element: <App />,
+        children: [
+          {
+            path: "/my-cards",
+            element: <MyCardsPage />,
+          },
+        ],
       },
     ],
   },

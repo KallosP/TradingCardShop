@@ -13,6 +13,8 @@ export default function CreateCardPage() {
  const [errors, setErrors] = useState({})
  const [isLoading, setIsLoading] = useState(false)
  const navigate = useNavigate()
+ const token = localStorage.getItem("token")
+ const user = JSON.parse(localStorage.getItem("user"))
 
  const validateForm = () => {
   const newErrors = {}
@@ -121,6 +123,9 @@ export default function CreateCardPage() {
     formDataToSend.append('image', imageFile)
    
     const response = await fetch(`${backendURL}/card`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       method: 'POST',
       body: formDataToSend
     })

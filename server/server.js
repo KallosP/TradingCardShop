@@ -48,7 +48,7 @@ app.post("/signup", registerUser);
 app.post("/login", loginUser);
 
 // Trading Card Operations
-app.post("/card", /*authenticateUser,*/ upload.single('image'), (req, res) => {
+app.post("/card", authenticateUser, upload.single('image'), (req, res) => {
 	const cardToAdd = {
     ...req.body,
     imageUrl: `/uploads/${req.file.filename}`

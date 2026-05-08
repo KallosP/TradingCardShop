@@ -122,7 +122,14 @@ export default function LoginPage() {
 			const endpoint = isLogin ? "/login" : "/signup";
 			const payload = await submitAuth(creds, endpoint);
 
-			navigate("/marketplace", { state: payload });
+			localStorage.setItem("token", payload.token)
+			localStorage.setItem("user", JSON.stringify({
+				id: payload.userId,
+				email: payload.email, 
+				name: payload.username
+			}))
+			
+			navigate("/marketplace");
 		} catch (error) {
             console.log("status", error.status)
 			if (error.status === 409) {
