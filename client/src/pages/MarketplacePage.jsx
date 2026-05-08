@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
+import backendURL from '../constants/url-constants'
 
 export default function MarketplacePage() {
  const [cards, setCards] = useState([])
  const [isLoading, setIsLoading] = useState(true)
  const [activeFilter, setActiveFilter] = useState('all')
+ 
+ // TODO: use volumes to have image URLs persist in docker? (they are deleted on every rerun,
+ //  but kept in the database which causes invalid url paths)
 
  // Placeholder data - replace with API call
  const placeholderCards = [
@@ -86,18 +90,18 @@ export default function MarketplacePage() {
   const fetchCards = async () => {
    try {
     setIsLoading(true)
-    // TODO: Replace with actual API call
-    // const response = await fetch(`${backendURL}/api/cards`);
-    // const data = await response.json();
-    // setCards(data);
+    const response = await fetch(`${backendURL}/card`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch cards")
+    }
 
-    // Simulate API delay
-    setTimeout(() => {
-     setCards(placeholderCards)
-     setIsLoading(false)
-    }, 500)
+    const data = await response.json();
+    console.log(data)
+    setCards(data);
+    console.log(cards)
    } catch (error) {
     console.error('Failed to fetch cards:', error)
+   } finally {
     setIsLoading(false)
    }
   }
@@ -192,7 +196,8 @@ export default function MarketplacePage() {
          {/* Card Image */}
          <div className="relative w-full aspect-square overflow-hidden bg-slate-800">
           <img
-           src={card.image}
+          // access the image at it's url
+           src={`${backendURL}${card.imageUrl}`}
            alt={card.title}
            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
