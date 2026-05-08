@@ -2,16 +2,21 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 export default function Navbar() {
- const navigate = useNavigate()
- const [showDropdown, setShowDropdown] = useState(false)
- const user = JSON.parse(localStorage.getItem('user'))
- const profileIconLetter = user.name[0].toUpperCase()
+  const navigate = useNavigate()
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const user = JSON.parse(localStorage.getItem('user'))
+  const profileIconLetter = user.name[0].toUpperCase()
 
- const handleLogout = () => {
-  localStorage.removeItem('user')
-  localStorage.removeItem('token')
-  navigate('/')
- }
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    navigate('/')
+  }
+
+  const handleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);  
+  }
 
  return (
   <div className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
@@ -90,7 +95,7 @@ export default function Navbar() {
      </div>
 
      {/* Mobile Menu Button */}
-     <button className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-300 transition hover:bg-slate-800 md:hidden">
+     <button onClick={handleMobileMenu} className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-300 transition hover:bg-slate-800 md:hidden">
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
        <path
         strokeLinecap="round"
@@ -104,57 +109,59 @@ export default function Navbar() {
    </div>
 
    {/* Mobile Navigation */}
-   <div className="border-t border-slate-800 bg-slate-900 md:hidden">
-    <div className="flex flex-col gap-2 px-4 py-4">
-     <NavLink
-      to="/my-cards"
-      className={({ isActive }) =>
-       `rounded-xl px-4 py-3 text-sm font-medium transition ${
-        isActive
-         ? 'bg-yellow-500 text-slate-950'
-         : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-       }`
-      }>
-      My Cards
-     </NavLink>
+   {showMobileMenu && (
+    <div className="fixed w-full z-40 border-t border-slate-800 bg-slate-900 md:hidden">
+      <div className="flex flex-col gap-2 px-4 py-4">
+      <NavLink
+        to="/marketplace"
+        className={({ isActive }) =>
+        `rounded-xl px-4 py-3 text-sm font-medium transition ${
+          isActive
+          ? 'bg-yellow-500 text-slate-950'
+          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        }`
+        }>
+        Marketplace
+      </NavLink>
 
-     <NavLink
-      to="/marketplace"
-      className={({ isActive }) =>
-       `rounded-xl px-4 py-3 text-sm font-medium transition ${
-        isActive
-         ? 'bg-yellow-500 text-slate-950'
-         : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-       }`
-      }>
-      Marketplace
-     </NavLink>
+      <NavLink
+        to="/my-cards"
+        className={({ isActive }) =>
+        `rounded-xl px-4 py-3 text-sm font-medium transition ${
+          isActive
+          ? 'bg-yellow-500 text-slate-950'
+          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        }`
+        }>
+        My Cards
+      </NavLink>
 
-     <NavLink
-      to="/create-card"
-      className={({ isActive }) =>
-       `rounded-xl px-4 py-3 text-sm font-medium transition ${
-        isActive
-         ? 'bg-yellow-500 text-slate-950'
-         : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-       }`
-      }>
-      Create
-     </NavLink>
+      <NavLink
+        to="/create-card"
+        className={({ isActive }) =>
+        `rounded-xl px-4 py-3 text-sm font-medium transition ${
+          isActive
+          ? 'bg-yellow-500 text-slate-950'
+          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+        }`
+        }>
+        Create
+      </NavLink>
 
-     {/* Mobile Balance */}
-     <div className="mt-2 rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-4 py-3 text-sm font-semibold text-yellow-400 sm:hidden">
-      12.45 USDC
-     </div>
+      {/* Mobile Balance */}
+      {/*<div className="mt-2 rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-4 py-3 text-sm font-semibold text-yellow-400 sm:hidden">
+        12.45 USDC
+      </div>*/}
 
-     {/* Mobile Logout Button */}
-     <button
-      onClick={handleLogout}
-      className="mt-4 w-full rounded-xl bg-red-600/20 px-4 py-3 text-sm font-medium text-red-400 transition hover:bg-red-600/30">
-      Logout
-     </button>
+      {/* Mobile Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="mt-4 w-full rounded-xl bg-red-600/20 px-4 py-3 text-sm font-medium text-red-400 transition hover:bg-red-600/30">
+        Logout
+      </button>
+      </div>
     </div>
-   </div>
+   )}
   </div>
  )
 }
