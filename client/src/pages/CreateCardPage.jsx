@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import backendURL from "../constants/url-constants";
 import HeaderSection from '../components/HeaderSection'
 import SubmitButton from '../components/SubmitButton';
+import TrashIcon from '../assets/TrashIcon';
+import ImageIcon from '../assets/ImageIcon';
 
 export default function CreateCardPage() {
  const [formData, setFormData] = useState({
@@ -169,7 +171,7 @@ export default function CreateCardPage() {
      <div className="space-y-8">
       {/* Upload Area */}
       <div>
-       <label className="block text-white font-semibold text-lg mb-4">Card Image *</label>
+       <label className="block text-white font-semibold text-lg mb-4">Card Image <span className="text-red-500">*</span></label>
        {imagePreview ? (
         <div className="relative">
          <img
@@ -183,14 +185,7 @@ export default function CreateCardPage() {
           disabled={isLoading}
           className="absolute top-3 right-3 bg-red-600 hover:bg-red-700 disabled:bg-red-500 text-white p-2 rounded-lg transition-colors"
           title="Remove image">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-           />
-          </svg>
+            <TrashIcon />
          </button>
         </div>
        ) : (
@@ -199,18 +194,7 @@ export default function CreateCardPage() {
          onDragLeave={handleDragLeave}
          onDrop={handleDrop}
          className="block border-2 border-dashed border-yellow-600/40 rounded-lg p-8 text-center cursor-pointer hover:border-yellow-500 hover:bg-yellow-500/5 transition-all duration-200">
-         <svg
-          className="w-12 h-12 mx-auto text-yellow-600/60 mb-3"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24">
-          <path
-           strokeLinecap="round"
-           strokeLinejoin="round"
-           strokeWidth={1.5}
-           d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
-         </svg>
+          <ImageIcon />
          <p className="text-gray-300 font-medium mb-1">Click or drop an image here</p>
          <p className="text-gray-500 text-sm mb-2">PNG or JPG</p>
          <input
@@ -226,42 +210,6 @@ export default function CreateCardPage() {
        {errors.image && <p className="text-red-500 text-sm mt-2">{errors.image}</p>}
       </div>
 
-      {/* Live Preview */}
-      {imagePreview && (
-       <div>
-        <h3 className="text-white font-semibold text-lg mb-4">LIVE PREVIEW</h3>
-        <div className="relative w-full aspect-video sm:aspect-square max-w-xs">
-         {/* Card Frame with Gold Border */}
-         <div
-          className="absolute inset-0 border-4 border-yellow-600 rounded-xl"
-          style={{
-           background: 'linear-gradient(135deg, #b8860b 0%, #ffd700 50%, #b8860b 100%)',
-           padding: '4px'
-          }}>
-          <div className="w-full h-full bg-slate-900 rounded-lg overflow-hidden relative">
-           {/* Card Content */}
-           <img src={imagePreview} alt="Card preview" className="w-full h-full object-cover" />
-
-           {/* Price Badge */}
-           {formData.price && (
-            <div className="absolute top-3 right-3 bg-yellow-600 text-slate-900 px-3 py-1 rounded-lg font-bold text-sm border-2 border-yellow-500">
-             ${parseFloat(formData.price).toFixed(2)}
-            </div>
-           )}
-
-           {/* Title at Bottom */}
-           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent p-4">
-            {formData.title && (
-             <h4 className="text-yellow-400 font-bold text-lg line-clamp-2">
-              {formData.title.toUpperCase()}
-             </h4>
-            )}
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-      )}
      </div>
 
      {/* Right Column - Form */}

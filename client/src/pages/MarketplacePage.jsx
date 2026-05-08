@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import backendURL from '../constants/url-constants'
-import LoadingIcon from '../components/LoadingIcon'
+import LoadingIcon from '../assets/LoadingIcon'
 import TradingCard from '../components/TradingCard'
 import TradingCardModal from '../components/TradingCardModal'
 import HeaderSection from '../components/HeaderSection'

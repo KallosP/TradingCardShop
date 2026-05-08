@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import backendURL from '../constants/url-constants'
-import LoadingIcon from '../components/LoadingIcon'
+import LoadingIcon from '../assets/LoadingIcon'
 import SubmitButton from '../components/SubmitButton'
 
 export default function LoginPage() {
@@ -272,7 +272,11 @@ export default function LoginPage() {
        </div>
       )}
 
-		<SubmitButton isLoading={isLoading} loadingLabel="Processing..." label={isLogin ? 'Sign In' : 'Create Account'} />
+      <SubmitButton
+       isLoading={isLoading}
+       loadingLabel="Processing..."
+       label={isLogin ? 'Sign In' : 'Create Account'}
+      />
      </form>
 
      {/* Divider */}
