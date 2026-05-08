@@ -82,6 +82,37 @@ app.get("/card/me", authenticateUser, async (req, res) => {
   }
 });
 
+// Updates card with corresponding ID
+app.put("/card/:cardId", authenticateUser, upload.single('image'), async (req, res) => {
+  try{
+    const {cardId} = req.params; 
+    const cardUpdates = {
+      ...req.body,
+    };
+    // Only update image if new file was uploaded
+    if (req.file) {
+      cardUpdates.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedCard = await cardService.updateCard(cardId, cardUpdates);
+    res.status(200).json(updatedCard);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+})
+
+app.delete("/card/:cardId", authenticateUser, async (req, res) => {
+  try{
+    const {cardId} = req.params; 
+    await cardService.deleteCard(cardId);
+    res.status(200).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+})
+
 // start the Express server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

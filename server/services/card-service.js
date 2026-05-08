@@ -11,11 +11,22 @@ function getAllCards() {
 }
 
 function getCardsByUserId(userId) {
-  return cardModel.find({ ownerId: userId });
+	return cardModel.find({ ownerId: userId });
+}
+
+function updateCard(cardId, cardUpdates){
+	// return updated document
+	return cardModel.findByIdAndUpdate(cardId, cardUpdates, {returnDocument: 'after'})
+}
+
+function deleteCard(cardId) {	
+	return cardModel.findByIdAndDelete(cardId)
 }
 
 export default {
 	addCard,
 	getAllCards,
-	getCardsByUserId
+	getCardsByUserId,
+	updateCard,
+	deleteCard
 };
