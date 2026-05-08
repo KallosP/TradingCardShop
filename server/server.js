@@ -48,7 +48,9 @@ app.post("/signup", registerUser);
 app.post("/login", loginUser);
 
 // Trading Card Operations
-app.post("/card", authenticateUser, upload.single('image'), (req, res) => {
+// ------------------------
+// Create a new card
+app.post("/cards", authenticateUser, upload.single('image'), (req, res) => {
 	const cardToAdd = {
     ...req.body,
     ownerId: req.user.userId,
@@ -59,7 +61,7 @@ app.post("/card", authenticateUser, upload.single('image'), (req, res) => {
 });
 
 // Get all cards in database
-app.get("/card", async (req, res) => {
+app.get("/cards", async (req, res) => {
   try{
     const cards = await cardService.getAllCards();
     res.status(200).json(cards);
@@ -70,7 +72,7 @@ app.get("/card", async (req, res) => {
 })
 
 // Get all cards created by user
-app.get("/card/me", authenticateUser, async (req, res) => {
+app.get("/cards/me", authenticateUser, async (req, res) => {
   try {
     const userId = req.user.userId;
     const userCards = await cardService.getCardsByUserId(userId);
@@ -82,8 +84,8 @@ app.get("/card/me", authenticateUser, async (req, res) => {
   }
 });
 
-// Updates card with corresponding ID
-app.put("/card/:cardId", authenticateUser, upload.single('image'), async (req, res) => {
+// Update a card with corresponding ID
+app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, res) => {
   try{
     const {cardId} = req.params; 
     const cardUpdates = {
@@ -102,7 +104,8 @@ app.put("/card/:cardId", authenticateUser, upload.single('image'), async (req, r
   }
 })
 
-app.delete("/card/:cardId", authenticateUser, async (req, res) => {
+// Delete a card with corresponding ID
+app.delete("/cards/:cardId", authenticateUser, async (req, res) => {
   try{
     const {cardId} = req.params; 
     await cardService.deleteCard(cardId);

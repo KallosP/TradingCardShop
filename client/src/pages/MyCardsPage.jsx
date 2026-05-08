@@ -17,7 +17,7 @@ export default function MyCardsPage() {
   const fetchUserCards = async () => {
    try {
     setIsLoading(true)
-    const response = await fetch(`${backendURL}/card/me`, {
+    const response = await fetch(`${backendURL}/cards/me`, {
      headers: { Authorization: `Bearer ${token}` }
     })
     const data = await response.json()
@@ -132,7 +132,7 @@ export default function MyCardsPage() {
       formDataToSend.append('image', editImageFile)
     }
 
-    const response = await fetch(`${backendURL}/card/${editingCard._id}`, {
+    const response = await fetch(`${backendURL}/cards/${editingCard._id}`, {
       headers: { Authorization: `Bearer ${token}` },
       method: 'PUT',
       body: formDataToSend
@@ -163,7 +163,7 @@ export default function MyCardsPage() {
     }
 
     try{
-      const response = await fetch(`${backendURL}/card/${cardId}`, {
+      const response = await fetch(`${backendURL}/cards/${cardId}`, {
         headers: {Authorization: `Bearer ${token}`},
         method: 'DELETE'
       });

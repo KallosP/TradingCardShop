@@ -17,7 +17,7 @@ export default function MarketplacePage() {
   const fetchCards = async () => {
    try {
     setIsLoading(true)
-    const response = await fetch(`${backendURL}/card`);
+    const response = await fetch(`${backendURL}/cards`);
     if (!response.ok) {
       throw new Error("Failed to fetch cards")
     }

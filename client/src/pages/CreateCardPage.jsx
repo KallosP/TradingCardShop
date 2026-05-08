@@ -122,7 +122,7 @@ export default function CreateCardPage() {
     formDataToSend.append('price', formData.price)
     formDataToSend.append('image', imageFile)
    
-    const response = await fetch(`${backendURL}/card`, {
+    const response = await fetch(`${backendURL}/cards`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

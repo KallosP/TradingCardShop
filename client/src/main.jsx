@@ -7,8 +7,6 @@ import {
 import App from "./App";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/MarketplacePage";
-import Record from "./components/Record";
-import RecordList from "./components/RecordList";
 import "./index.css";
 import CreateCardPage from "./pages/CreateCardPage";
 import MarketplacePage from "./pages/MarketplacePage";
