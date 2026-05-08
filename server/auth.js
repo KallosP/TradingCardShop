@@ -2,9 +2,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userService from "./services/user-service.js";
 
-function generateAccessToken(email) {
+function generateAccessToken(userId) {
 	return new Promise((resolve, reject) => {
-		jwt.sign({email: email}, process.env.TOKEN_SECRET, {expiresIn: "1d"}, (error, token) => {
+		jwt.sign({userId: userId}, process.env.TOKEN_SECRET, {expiresIn: "1d"}, (error, token) => {
 			if (error) {
 				reject(error);
 			} else {
@@ -29,19 +29,22 @@ export function registerUser(req, res) {
       // Create new user and store hashed password if all validation checks pass
       } else {
         bcrypt
-          .genSalt(10)
-          .then((salt) => bcrypt.hash(password, salt)) // hash/salt password
-          .then((hashedPassword) => {
-            return generateAccessToken(email)
-              .then((token) => {
-                userService.addUser(username, email, hashedPassword)
-                    .then((user) => {
-                        console.log("USR", user)
-                        res.status(200).send({token: token, userId: user._id, 
-                            username: user.username, email: user.email});
-                    });
-              });
-          });
+			.genSalt(10)
+			.then((salt) => bcrypt.hash(password, salt)) // hash/salt password
+			.then((hashedPassword) => {
+				return userService.addUser(username, email, hashedPassword);
+			})
+			.then((newUser) => {
+			return generateAccessToken(newUser._id)
+				.then((token) => {
+				res.status(201).send({
+					token: token,
+					userId: newUser._id,
+					username: newUser.username,
+					email: newUser.email
+				});
+				});
+			});
       }
     });
 }
@@ -57,6 +60,7 @@ export function authenticateUser(req, res, next) {
 	} else {
 		jwt.verify(token, process.env.TOKEN_SECRET, (error, decoded) => {
 			if (decoded) {
+				req.user = decoded;
 				next();
 			} else {
 				console.log("JWT error:", error);
@@ -80,7 +84,7 @@ export function loginUser(req, res) {
 					.compare(password, retrievedUser.hashedPassword)
 					.then((matched) => {
 						if (matched) {
-							generateAccessToken(email).then((token) => {
+							generateAccessToken(retrievedUser._id).then((token) => {
 								// User's token and their credentials ID
 								res.status(200).send({
                                     token: token, userId: retrievedUser._id, 

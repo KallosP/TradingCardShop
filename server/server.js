@@ -51,13 +51,14 @@ app.post("/login", loginUser);
 app.post("/card", authenticateUser, upload.single('image'), (req, res) => {
 	const cardToAdd = {
     ...req.body,
+    ownerId: req.user.userId,
     imageUrl: `/uploads/${req.file.filename}`
   }
-  console.log("cardToAdd", cardToAdd)
 	const promise = cardService.addCard(cardToAdd);
 	promise.then((newAdd) => res.status(201).json(newAdd)).catch((error) => res.status(500).send());
 });
 
+// Get all cards in database
 app.get("/card", async (req, res) => {
   try{
     const cards = await cardService.getAllCards();
@@ -67,6 +68,19 @@ app.get("/card", async (req, res) => {
     res.status(500).send();
   }
 })
+
+// Get all cards created by user
+app.get("/card/me", authenticateUser, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const userCards = await cardService.getCardsByUserId(userId);
+    console.log("userCards", userCards)
+    res.status(200).json(userCards);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
 
 // start the Express server
 app.listen(PORT, () => {
