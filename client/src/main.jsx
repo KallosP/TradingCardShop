@@ -6,9 +6,13 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/MarketplacePage";
 import Record from "./components/Record";
 import RecordList from "./components/RecordList";
 import "./index.css";
+import CreateCardPage from "./pages/CreateCardPage";
+import MarketplacePage from "./pages/MarketplacePage";
+import MyCardsPage from "./pages/MyCardsPage";
 
 const router = createBrowserRouter([
   {
@@ -16,32 +20,32 @@ const router = createBrowserRouter([
     element: <LoginPage/>,
   },
   {
-    path: "/home",
+    path: "/create-card",
     element: <App />,
     children: [
       {
-        path: "/home",
-        element: <RecordList />,
+        path: "/create-card",
+        element: <CreateCardPage />,
       },
     ],
   },
   {
-    path: "/edit/:id",
+    path: "/marketplace",
     element: <App />,
     children: [
       {
-        path: "/edit/:id",
-        element: <Record />,
+        path: "/marketplace",
+        element: <MarketplacePage />,
       },
     ],
   },
   {
-    path: "/create",
+    path: "/my-cards",
     element: <App />,
     children: [
       {
-        path: "/create",
-        element: <Record />,
+        path: "/my-cards",
+        element: <MyCardsPage />,
       },
     ],
   },

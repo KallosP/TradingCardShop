@@ -122,7 +122,7 @@ export default function LoginPage() {
 			const endpoint = isLogin ? "/login" : "/signup";
 			const payload = await submitAuth(creds, endpoint);
 
-			navigate("/home", { state: payload });
+			navigate("/marketplace", { state: payload });
 		} catch (error) {
             console.log("status", error.status)
 			if (error.status === 409) {
