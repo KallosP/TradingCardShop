@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import backendURL from "../constants/url-constants";
 import HeaderSection from '../components/HeaderSection'
+import SubmitButton from '../components/SubmitButton';
 
 export default function CreateCardPage() {
  const [formData, setFormData] = useState({
@@ -361,21 +362,7 @@ export default function CreateCardPage() {
 
        {/* Action Buttons */}
        <div className="flex gap-3 pt-6">
-        <button
-         type="submit"
-         disabled={isLoading}
-         className="flex-1 px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:from-yellow-700 disabled:to-yellow-600 text-slate-900 font-bold rounded-lg transition-all flex items-center justify-center gap-2 disabled:cursor-not-allowed">
-         {isLoading ? (
-          <>
-            {/* TOOD: add reusable spinning/loading circle component */}
-           Publishing...
-          </>
-         ) : (
-          <div>
-           Publish Card
-          </div>
-         )}
-        </button>
+          <SubmitButton isLoading={isLoading} loadingLabel="Publishing..." label="Publish Card" />
        </div>
       </form>
      </div>

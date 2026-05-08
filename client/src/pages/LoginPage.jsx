@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import backendURL from '../constants/url-constants'
+import LoadingIcon from '../components/LoadingIcon'
+import SubmitButton from '../components/SubmitButton'
 
 export default function LoginPage() {
  const [isLogin, setIsLogin] = useState(true)
@@ -171,7 +173,7 @@ export default function LoginPage() {
       <div className="text-4xl sm:text-5xl font-bold tracking-[0.2em] text-yellow-500 mb-4">
        TCS
       </div>
-      <p className="text-gray-400 text-sm">Trading Card Shop</p>
+      <p className="text-gray-300 font-bold tracking-widest text-sm">Trading Card Shop</p>
      </div>
 
      {/* Form */}
@@ -270,38 +272,7 @@ export default function LoginPage() {
        </div>
       )}
 
-      {/* Submit Button */}
-      <button
-       type="submit"
-       disabled={isLoading}
-       className="w-full bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-600/50 text-slate-950 font-bold py-2.5 rounded-lg transition-colors mt-6 disabled:cursor-not-allowed">
-       {isLoading ? (
-        <span className="flex items-center justify-center">
-         <svg
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-950"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24">
-          <circle
-           className="opacity-25"
-           cx="12"
-           cy="12"
-           r="10"
-           stroke="currentColor"
-           strokeWidth="4"></circle>
-          <path
-           className="opacity-75"
-           fill="currentColor"
-           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-         </svg>
-         Processing...
-        </span>
-       ) : isLogin ? (
-        'Sign In'
-       ) : (
-        'Create Account'
-       )}
-      </button>
+		<SubmitButton isLoading={isLoading} loadingLabel="Processing..." label={isLogin ? 'Sign In' : 'Create Account'} />
      </form>
 
      {/* Divider */}

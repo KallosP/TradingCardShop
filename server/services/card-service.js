@@ -12,7 +12,7 @@ function getAllCards() {
 }
 
 function getCardsByUserId(userId) {
-	return cardModel.find({ ownerId: userId });
+	return cardModel.find({ ownerId: userId }).populate("ownerId", "username");
 }
 
 function updateCard(cardId, cardUpdates){

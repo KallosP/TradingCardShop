@@ -4,6 +4,7 @@ import LoadingIcon from '../components/LoadingIcon'
 import TradingCard from '../components/TradingCard'
 import TradingCardModal from '../components/TradingCardModal'
 import HeaderSection from '../components/HeaderSection'
+import LoadingState from '../components/LoadingState'
 
 export default function MarketplacePage() {
  const [cards, setCards] = useState([])
@@ -42,18 +43,15 @@ export default function MarketplacePage() {
  return (
   <div className="min-h-screen bg-slate-950 pt-0">
    {/* Header Section */}
-   <HeaderSection title="Marketplace" description="Browse custom trading cards created by other users" />
+   <HeaderSection
+    title="Marketplace"
+    description="Browse custom trading cards created by other users"
+   />
 
    {/* Main Content */}
    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     {isLoading ? (
-     /* Loading State */
-     <div className="flex items-center justify-center py-20">
-      <div className="flex flex-col items-center gap-4">
-       <LoadingIcon />
-       <p className="text-gray-400">Loading cards...</p>
-      </div>
-     </div>
+     <LoadingState loadingMsg="Loading cards..." />
     ) : cards.length === 0 ? (
      /* Empty State */
      <div className="border border-yellow-600/30 rounded-lg p-12 text-center bg-slate-900/50">
@@ -64,7 +62,12 @@ export default function MarketplacePage() {
      /* Cards Grid */
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {cards.map((card) => (
-       <TradingCard key={card._id} card={card} onClick={() => setSelectedCard(card)} />
+       <TradingCard
+        key={card._id}
+        card={card}
+        onClick={() => setSelectedCard(card)}
+        displayMore={true}
+       />
       ))}
      </div>
     )}

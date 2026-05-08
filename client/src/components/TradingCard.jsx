@@ -1,10 +1,10 @@
 import backendURL from '../constants/url-constants'
 
-export default function TradingCard({ card, onClick }) {
+export default function TradingCard({ card, onClick, displayMore = false }) {
  return (
   <div className="group cursor-pointer relative" onClick={onClick}>
    {/* Card Container */}
-   <div className="relative rounded-xl border-3 border-yellow-600/80 overflow-hidden hover:border-yellow-500 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/20 bg-slate-900">
+   <div className={`relative rounded-xl border-3 border-yellow-600/80 overflow-hidden transition-all duration-300 hover:border-yellow-500 ${displayMore ? 'hover:shadow-lg hover:shadow-yellow-500/20' : ''} bg-slate-900`}>
     {/* Card Image */}
     <div className="relative w-full aspect-square overflow-hidden bg-slate-800">
      <img
@@ -30,6 +30,7 @@ export default function TradingCard({ card, onClick }) {
      <p className="text-gray-400 text-sm mb-3 line-clamp-1">{card.description}</p>
 
      {/* Seller Info */}
+    {displayMore && (
      <div className="flex items-center gap-2 pt-3 border-t border-yellow-600/20">
       <div className="w-7 h-7 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center text-slate-900 font-bold text-xs flex-shrink-0">
        {card.ownerId.username[0].toUpperCase()}
@@ -39,6 +40,7 @@ export default function TradingCard({ card, onClick }) {
        <p className="text-gray-500 text-xs">by {card.ownerId.username}</p>
       </div>
      </div>
+    )}
     </div>
    </div>
   </div>
