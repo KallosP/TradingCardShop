@@ -23,9 +23,7 @@ export default function MarketplacePage() {
     }
 
     const data = await response.json();
-    console.log(data)
     setCards(data);
-    console.log(cards)
    } catch (error) {
     console.error('Failed to fetch cards:', error)
    } finally {
@@ -148,10 +146,10 @@ export default function MarketplacePage() {
           {/* Seller Info */}
           <div className="flex items-center gap-2 pt-3 border-t border-yellow-600/20">
            <div className="w-7 h-7 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center text-slate-900 font-bold text-xs flex-shrink-0">
-            {card.sellerAvatar}
+            {card.ownerId.username[0].toUpperCase()}
            </div>
            <div className="min-w-0 flex-1">
-            <p className="text-gray-500 text-xs">by {card.seller}</p>
+            <p className="text-gray-500 text-xs">by {card.ownerId.username}</p>
            </div>
           </div>
          </div>

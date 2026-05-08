@@ -24,7 +24,7 @@ const TradingCardSchema = new mongoose.Schema(
         },
         ownerId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: "User", // allows for referencing User data (like username)
             required: true,
         },
 	},

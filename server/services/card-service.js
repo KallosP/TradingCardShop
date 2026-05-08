@@ -7,7 +7,8 @@ function addCard(cardData) {
 }
 
 function getAllCards() {
-	return cardModel.find()
+	// return card data with User schema's data included (specifying only username to be returned)
+	return cardModel.find().populate("ownerId", "username");
 }
 
 function getCardsByUserId(userId) {

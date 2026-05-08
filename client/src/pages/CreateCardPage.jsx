@@ -115,7 +115,6 @@ export default function CreateCardPage() {
   setIsLoading(true)
 
   try {
-   // TODO: Replace with actual API call
     const formDataToSend = new FormData()
     formDataToSend.append('title', formData.title)
     formDataToSend.append('description', formData.description)
