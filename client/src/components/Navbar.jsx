@@ -52,7 +52,7 @@ export default function Navbar() {
           <div className="relative hidden md:block">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 text-sm font-bold text-slate-950 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 sm:h-11 sm:w-11">
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 text-sm font-bold text-slate-950 transition-all duration-200 hover:scale-105 sm:h-11 sm:w-11">
               {profileIconLetter}
             </button>
 
