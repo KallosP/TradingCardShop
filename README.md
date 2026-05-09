@@ -33,6 +33,19 @@ The values for the environment variables will be provided separately.
 
 ---
 
+## Seed the Database
+
+Navigate to the server directory and run the seed script:
+
+```bash
+cd server
+npm run seed
+```
+
+This will clear any existing data and populate the database with 8 demo users, each with 3 trading cards listed on the marketplace (24 cards total). All demo accounts use the password `password123`.
+
+---
+
 ## Run the Application
 
 In the terminal, run the command `docker compose up` to:
