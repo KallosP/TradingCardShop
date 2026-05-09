@@ -66,7 +66,6 @@ export default function MyCardsPage() {
       // Remove from collection, add to listings
       setCollection((prev) => prev.filter((c) => c._id !== cardId))
       setListings((prev) => [...prev, relistedCard])
-      setActiveTab('listings')
     } catch (err) {
       alert('Something went wrong relisting your card.')
     }
@@ -75,7 +74,7 @@ export default function MyCardsPage() {
   const tabClass = (tab) =>
     `px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
       activeTab === tab
-        ? 'bg-yellow-500 text-slate-950 shadow-md shadow-yellow-500/30'
+        ? 'bg-yellow-500 text-slate-950'
         : 'text-slate-300 hover:bg-slate-800 hover:text-white'
     }`
 
@@ -97,19 +96,9 @@ export default function MyCardsPage() {
         <div className="inline-flex gap-2 rounded-full border border-slate-800 bg-slate-900/80 p-2">
           <button className={tabClass('listings')} onClick={() => setActiveTab('listings')}>
             My Listings
-            {listings.length > 0 && (
-              <span className="ml-2 text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">
-                {listings.length}
-              </span>
-            )}
           </button>
           <button className={tabClass('collection')} onClick={() => setActiveTab('collection')}>
             My Collection
-            {collection.length > 0 && (
-              <span className="ml-2 text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">
-                {collection.length}
-              </span>
-            )}
           </button>
         </div>
       </div>
