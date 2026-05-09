@@ -2,6 +2,7 @@ import { useState } from 'react'
 import backendURL from '../constants/url-constants'
 import SubmitButton from './SubmitButton'
 import ImageUpload from './ImageUpload'
+import validateCardForm from '../utils/validateCardForm'
 
 export default function EditCardModal({ editingCard, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -33,19 +34,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
   }
 
   const validate = () => {
-    const newErrors = {}
-    if (!formData.title.trim()) newErrors.title = 'Title is required'
-    else if (formData.title.length < 3) newErrors.title = 'Title must be at least 3 characters'
-    else if (formData.title.length > 100) newErrors.title = 'Title must be less than 100 characters'
-
-    if (!formData.description.trim()) newErrors.description = 'Description is required'
-    else if (formData.description.length < 10) newErrors.description = 'Description must be at least 10 characters'
-    else if (formData.description.length > 500) newErrors.description = 'Description must be less than 500 characters'
-
-    if (!formData.price) newErrors.price = 'Price is required'
-    else if (isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) newErrors.price = 'Please enter a valid price'
-    else if (parseFloat(formData.price) > 999999) newErrors.price = 'Price is too high'
-
+    const newErrors = validateCardForm(formData, imagePreview, false)
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }

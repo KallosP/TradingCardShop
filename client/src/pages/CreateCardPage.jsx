@@ -6,6 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import TrashIcon from '../assets/TrashIcon';
 import ImageIcon from '../assets/ImageIcon';
 import ImageUpload from '../components/ImageUpload';
+import validateCardForm from '../utils/validateCardForm';
 
 export default function CreateCardPage() {
  const [formData, setFormData] = useState({
@@ -22,36 +23,7 @@ export default function CreateCardPage() {
  const user = JSON.parse(localStorage.getItem("user"))
 
  const validateForm = () => {
-  const newErrors = {}
-
-  if (!formData.title.trim()) {
-   newErrors.title = 'Card title is required'
-  } else if (formData.title.length < 3) {
-   newErrors.title = 'Title must be at least 3 characters'
-  } else if (formData.title.length > 100) {
-   newErrors.title = 'Title must be less than 100 characters'
-  }
-
-  if (!formData.description.trim()) {
-   newErrors.description = 'Description is required'
-  } else if (formData.description.length < 10) {
-   newErrors.description = 'Description must be at least 10 characters'
-  } else if (formData.description.length > 500) {
-   newErrors.description = 'Description must be less than 500 characters'
-  }
-
-  if (!formData.price) {
-   newErrors.price = 'Price is required'
-  } else if (isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) {
-   newErrors.price = 'Please enter a valid price'
-  } else if (parseFloat(formData.price) > 999999) {
-   newErrors.price = 'Price is too high'
-  }
-
-  if (!imagePreview) {
-   newErrors.image = 'Card image is required'
-  }
-
+  const newErrors = validateCardForm(formData, imagePreview, true)
   setErrors(newErrors)
   return Object.keys(newErrors).length === 0
  }
@@ -85,28 +57,6 @@ export default function CreateCardPage() {
      image: ''
     }))
    }
-  }
- }
-
- const handleDragOver = (e) => {
-  e.preventDefault()
-  e.currentTarget.classList.add('border-yellow-500', 'bg-yellow-500/5')
- }
-
- const handleDragLeave = (e) => {
-  e.currentTarget.classList.remove('border-yellow-500', 'bg-yellow-500/5')
- }
-
- const handleDrop = (e) => {
-  e.preventDefault()
-  e.currentTarget.classList.remove('border-yellow-500', 'bg-yellow-500/5')
-  const file = e.dataTransfer.files?.[0]
-  if (file) {
-   const reader = new FileReader()
-   reader.onloadend = () => {
-    setImagePreview(reader.result)
-   }
-   reader.readAsDataURL(file)
   }
  }
 
