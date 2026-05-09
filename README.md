@@ -33,19 +33,6 @@ The values for the environment variables will be provided separately.
 
 ---
 
-## Seed the Database
-
-Navigate to the server directory and run the seed script:
-
-```bash
-cd server
-npm run seed
-```
-
-This will clear any existing data and populate the database with 8 demo users, each with 3 trading cards listed on the marketplace (24 cards total). All demo accounts use the password `password123`.
-
----
-
 ## Run the Application
 
 In the terminal, run the command `docker compose up` to:
@@ -66,5 +53,6 @@ To stop the app/all running containers, run: `docker compose down`
 - Frontend runs on: http://localhost:5173
 - Backend runs on: http://localhost:5050 
 - MongoDB runs on: http://localhost:27017 
+- The database is seeded with 8 demo users, each with 3 trading cards listed on the marketplace (24 cards total). All demo accounts use the password `password123`. Emails for each user can be found in `server/seed.js`
 - Ensure `config.env` is correctly set or the backend will not start
 - Docker Compose is configured to handle networking between services automatically
