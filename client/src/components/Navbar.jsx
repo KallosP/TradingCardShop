@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import HamburgerIcon from '../assets/HamburgerIcon'
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -96,14 +97,7 @@ export default function Navbar() {
 
      {/* Mobile Menu Button */}
      <button onClick={handleMobileMenu} className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-300 transition hover:bg-slate-800 md:hidden">
-      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-       <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M4 6h16M4 12h16M4 18h16"
-       />
-      </svg>
+      <HamburgerIcon />
      </button>
     </div>
    </div>
