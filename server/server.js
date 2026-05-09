@@ -116,7 +116,7 @@ app.post('/cards/:cardId/buy', authenticateUser, async (req, res) => {
   try {
     const card = await cardService.findCardById(req.params.cardId);
     if (!card) return res.status(404).json({ message: 'Card not found' })
-    if (card.status === 'sold') return res.status(400).json({ message: 'Card already sold' })
+    if (card.status === 'sold') return res.status(400).json({ message: 'Card already sold, please refresh for up-to-date listings' })
     if (card.ownerId.toString() === req.user.userId) return res.status(400).json({ message: 'Cannot buy your own card' })
     // Ensure client-provided price matches server price to prevent mismatches due to stale data on client side
     if (req.body.price !== card.price) return res.status(400).json({ message: 'Price mismatch, please refresh the page' }) 

@@ -41,8 +41,13 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
     }
   }
 
+  function handleClose() {
+    setPurchaseError(null);
+    onClose();
+  }
+
   return (
-    <Modal onClose={onClose} maxWidth="max-w-4xl">
+    <Modal onClose={handleClose} maxWidth="max-w-4xl">
       <div className="grid grid-cols-1 gap-6 p-4 pt-12 sm:grid-cols-2 sm:gap-8 sm:p-8 sm:pt-8 items-stretch">
         {/* Left Side - Trading Card */}
         <div className="flex flex-col items-center">
