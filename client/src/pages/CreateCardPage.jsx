@@ -153,7 +153,7 @@ export default function CreateCardPage() {
          placeholder="Enter card title"
          disabled={isLoading}
          maxLength={100}
-         className={`w-full px-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-all ${
+         className={`w-full px-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors ${
           errors.title
            ? 'border-red-500 focus:border-red-500'
            : 'border-yellow-600/30 focus:border-yellow-500'
@@ -182,7 +182,7 @@ export default function CreateCardPage() {
          disabled={isLoading}
          maxLength={500}
          rows={6}
-         className={`w-full px-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-all resize-none ${
+         className={`w-full px-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors resize-none ${
           errors.description
            ? 'border-red-500 focus:border-red-500'
            : 'border-yellow-600/30 focus:border-yellow-500'
@@ -215,7 +215,7 @@ export default function CreateCardPage() {
           step="0.01"
           min="0"
           max="999999"
-          className={`w-full pl-8 pr-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-all ${
+          className={`w-full pl-8 pr-4 py-3 bg-slate-900 border-2 rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors ${
            errors.price
             ? 'border-red-500 focus:border-red-500'
             : 'border-yellow-600/30 focus:border-yellow-500'

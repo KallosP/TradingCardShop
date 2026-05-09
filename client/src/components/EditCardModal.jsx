@@ -100,7 +100,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
             <input
               type="text" name="title" value={formData.title}
               onChange={handleInputChange} disabled={isSaving}
-              className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
+              className="w-full bg-slate-800/80 border-2 border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
             />
             {errors.title && <p className="text-red-500 text-xs mt-2">{errors.title}</p>}
             <p className="text-gray-500 text-xs mt-2">{formData.title.length}/100</p>
@@ -114,7 +114,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
             <textarea
               name="description" value={formData.description}
               onChange={handleInputChange} disabled={isSaving} rows="4"
-              className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50 resize-none"
+              className="w-full bg-slate-800/80 border-2 border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50 resize-none"
             />
             {errors.description && <p className="text-red-500 text-xs mt-2">{errors.description}</p>}
             <p className="text-gray-500 text-xs mt-2">{formData.description.length}/500</p>
@@ -131,7 +131,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
                 type="number" name="price" value={formData.price}
                 onChange={handleInputChange} disabled={isSaving}
                 placeholder="0.00" step="0.01" min="0"
-                className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg pl-6 pr-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
+                className="w-full bg-slate-800/80 border-2 border-yellow-500/20 rounded-lg pl-6 pr-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
               />
             </div>
             {errors.price && <p className="text-red-500 text-xs mt-2">{errors.price}</p>}
