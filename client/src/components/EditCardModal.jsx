@@ -4,6 +4,7 @@ import SubmitButton from './SubmitButton'
 import ImageUpload from './ImageUpload'
 import validateCardForm from '../utils/validateCardForm'
 import Modal from './Modal'
+import ErrorBanner from './ErrorBanner'
 
 export default function EditCardModal({ editingCard, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -136,12 +137,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
             {errors.price && <p className="text-red-500 text-xs mt-2">{errors.price}</p>}
           </div>
 
-          {/* Submit error */}
-          {errors.submit && (
-            <div className="bg-red-600/20 border border-red-600/40 rounded-xl p-4">
-              <p className="text-red-400 text-xs">{errors.submit}</p>
-            </div>
-          )}
+          <ErrorBanner message={errors.submit} />
 
           {/* Actions */}
           <div className="flex gap-3 pt-2">

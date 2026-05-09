@@ -7,6 +7,7 @@ import TrashIcon from '../assets/TrashIcon';
 import ImageIcon from '../assets/ImageIcon';
 import ImageUpload from '../components/ImageUpload';
 import validateCardForm from '../utils/validateCardForm';
+import ErrorBanner from '../components/ErrorBanner';
 
 export default function CreateCardPage() {
  const [formData, setFormData] = useState({
@@ -137,12 +138,6 @@ export default function CreateCardPage() {
      {/* Right Column - Form */}
      <div>
       <form onSubmit={handlePublish} className="space-y-6">
-       {/* Submit Error */}
-       {errors.submit && (
-        <div className="bg-red-950/50 border border-red-700 text-red-400 px-4 py-3 rounded-lg text-sm">
-         {errors.submit}
-        </div>
-       )}
 
        {/* Title Field */}
        <div>
@@ -234,6 +229,8 @@ export default function CreateCardPage() {
        <div className="flex gap-3 pt-6">
           <SubmitButton isLoading={isLoading} loadingLabel="Publishing..." label="Publish Card" />
        </div>
+
+        <ErrorBanner message={errors.submit} />
       </form>
      </div>
     </div>
