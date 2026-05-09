@@ -7,8 +7,7 @@ function addCard(cardData) {
 
 function getAllCards(userId) {
   return cardModel.find({
-    status: "market",
-    ownerId: { $ne: userId }
+    status: "market"
   }).populate("ownerId", "username");
 }
 

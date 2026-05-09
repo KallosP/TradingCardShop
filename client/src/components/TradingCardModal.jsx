@@ -95,41 +95,50 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
             </div>
           </div>
 
-          {/* Price */}
-          <div className="flex items-center justify-center">
-            <div className="rounded-xl border border-yellow-500/20 bg-gradient-to-b from-slate-900/80 to-slate-900/60 px-6 py-4 shadow-md shadow-yellow-500/10">
-              <div className="flex items-center gap-3">
-                <span className="text-md font-semibold tracking-wider text-yellow-500 uppercase">Price</span>
+        {/* Price + Buy */}
+        {!isOwnCard && (
+          <div className="flex flex-col gap-2">
+            {purchaseError && (
+              <div className="rounded-xl border border-red-600/40 bg-red-600/20 px-4 py-3">
+                <p className="text-red-400 text-xs text-center">{purchaseError}</p>
+              </div>
+            )}
+            {purchased ? (
+              <div className="rounded-xl border border-green-500/40 bg-green-500/10 px-6 py-4 text-center">
+                <p className="text-green-400 font-semibold">Purchase Successful!</p>
+                <p className="text-green-400/70 text-xs mt-1">This card is now in your collection.</p>
+              </div>
+            ) : (
+                <button
+                  onClick={handleBuy}
+                  disabled={isPurchasing}
+                  className="w-full rounded-xl border border-yellow-500/20 bg-gradient-to-b from-yellow-500 to-yellow-600 px-6 py-4 shadow-md hover:border-yellow-500/60 hover:from-yellow-400 hover:to-yellow-500 hover:shadow-yellow-500/30 hover:scale-[1.03] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-md font-semibold tracking-wider text-slate-950 uppercase">
+                      {isPurchasing ? 'Processing...' : 'Buy Now'}
+                    </span>
+                    <span className="h-5 w-[1px] bg-slate-950/50" />
+                    <span className="text-2xl font-bold text-slate-950">${selectedCard.price.toFixed(2)}</span>
+                  </div>
+                </button>
+            )}
+          </div>
+        )}
+
+        {/* Price only — shown when it's the user's own card */}
+        {isOwnCard && (
+          <div className="flex">
+            <div className="w-full rounded-xl border border-yellow-500/20 bg-gradient-to-b from-slate-900/80 to-slate-900/60 px-6 py-4 shadow-md shadow-yellow-500/10">
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-md font-semibold tracking-wider text-yellow-500 uppercase">Your Listing</span>
                 <span className="h-5 w-[1px] bg-yellow-500/50" />
                 <span className="text-2xl font-bold text-yellow-300">${selectedCard.price.toFixed(2)}</span>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Buy Button */}
-          {!isOwnCard && (
-            <div className="flex flex-col gap-2">
-              {purchaseError && (
-                <div className="rounded-xl border border-red-600/40 bg-red-600/20 px-4 py-3">
-                  <p className="text-red-400 text-xs text-center">{purchaseError}</p>
-                </div>
-              )}
-              {purchased ? (
-                <div className="rounded-xl border border-green-500/40 bg-green-500/10 px-6 py-4 text-center">
-                  <p className="text-green-400 font-semibold">Purchase Successful!</p>
-                  <p className="text-green-400/70 text-xs mt-1">This card is now in your collection.</p>
-                </div>
-              ) : (
-                <button
-                  onClick={handleBuy}
-                  disabled={isPurchasing}
-                  className="w-full rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-bold py-3 px-6 transition-all shadow-md shadow-yellow-500/20"
-                >
-                  {isPurchasing ? 'Processing...' : `Buy Now — $${selectedCard.price.toFixed(2)}`}
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </Modal>
