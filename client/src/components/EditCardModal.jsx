@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import backendURL from '../constants/url-constants'
 import SubmitButton from './SubmitButton'
+import ImageUpload from './ImageUpload'
 
 export default function EditCardModal({ editingCard, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -95,37 +96,18 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-5">
-          {/* Image */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">Card Image</label>
-            {imagePreview ? (
-              <div className="relative">
-                <img src={imagePreview} alt="Preview" className="w-full aspect-video sm:aspect-square object-cover rounded-lg border-2 border-yellow-600/50" />
-                <button
-                  type="button"
-                  onClick={() => { setImagePreview(null); setImageFile(null) }}
-                  disabled={isSaving}
-                  className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white p-1.5 rounded-lg transition-colors"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            ) : (
-              <label className="block border-2 border-dashed border-yellow-600/40 rounded-lg p-4 text-center cursor-pointer hover:border-yellow-500 hover:bg-yellow-500/5 transition-colors">
-                <svg className="h-8 w-8 mx-auto text-yellow-600/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <p className="text-sm text-gray-300 font-medium">Click to update image</p>
-                <input type="file" accept=".png,.jpg,.jpeg" onChange={handleImageChange} disabled={isSaving} className="hidden" />
-              </label>
-            )}
-          </div>
-
+          <label className="block text-sm font-semibold text-gray-300 mb-3">Card Image <span className="text-red-500">*</span></label>
+          <ImageUpload
+            imagePreview={imagePreview}
+            onImageChange={handleImageChange}
+            onRemove={() => { setImagePreview(null); setImageFile(null) }}
+            isLoading={isSaving}
+            error={errors.image}
+          />
+            
           {/* Title */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Title *</label>
+            <label className="block text-sm font-semibold text-gray-300 mb-2">Title <span className="text-red-500">*</span></label>
             <input type="text" name="title" value={formData.title} onChange={handleInputChange} disabled={isSaving}
               className="w-full bg-slate-800 border border-yellow-600/30 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50" />
             {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
@@ -134,7 +116,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Description *</label>
+            <label className="block text-sm font-semibold text-gray-300 mb-2">Description <span className="text-red-500">*</span></label>
             <textarea name="description" value={formData.description} onChange={handleInputChange} disabled={isSaving} rows="4"
               className="w-full bg-slate-800 border border-yellow-600/30 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50 resize-none" />
             {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
@@ -143,7 +125,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
+            <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) <span className="text-red-500">*</span></label>
             <div className="relative">
               <span className="absolute left-3 top-2 text-gray-400 text-sm font-semibold">$</span>
               <input type="number" name="price" value={formData.price} onChange={handleInputChange} disabled={isSaving}
