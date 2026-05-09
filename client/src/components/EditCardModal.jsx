@@ -74,7 +74,7 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-3 sm:p-4">
       {/* Wrapper */}
-      <Modal onClose={onClose} closeDisabled={isSaving}>
+      <Modal onClose={onClose} closeDisabled={isSaving} maxWidth="max-w-3xl">
         <form onSubmit={handleSubmit} className="relative p-4 pt-12 sm:p-8 sm:pt-8 space-y-5">
 
           {/* Image */}

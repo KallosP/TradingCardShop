@@ -89,7 +89,7 @@ export default function MyCardsPage() {
      /* Cards Grid */
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {cards.map((card) => (
-       <div key={card._id} className="group hover:shadow-lg hover:shadow-yellow-500/20 rounded-xl  transition-shadow duration-300 ">
+       <div key={card._id} className="group rounded-xl  transition-shadow duration-300 ">
           <TradingCard card={card} displayMore={false} />
           {/* Card Info */}
           <div className="p-4 bg-gradient-to-t rounded-xl from-slate-950 via-slate-950/80 to-transparent">

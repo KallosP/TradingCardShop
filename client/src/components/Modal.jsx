@@ -26,9 +26,9 @@ export default function Modal({ onClose, closeDisabled = false, children, maxWid
         </button>
 
         {/* Modal Card */}
-        <div className="relative w-full max-h-[95vh] overflow-y-auto overflow-x-hidden rounded-3xl border-2 border-yellow-500/40 bg-gradient-to-br from-slate-900 via-slate-950 to-black shadow-2xl shadow-yellow-500/10">
+        <div className="relative w-full max-h-[95vh] overflow-y-auto overflow-x-hidden rounded-3xl border-2 border-yellow-500/40 bg-gradient-to-br from-slate-900 via-slate-950 to-black shadow-2xl shadow-yellow-500/10 [background-image:radial-gradient(circle_at_bottom_right,rgba(234,179,8,0.15),transparent_10%),linear-gradient(to_bottom_right,#0f172a,#020617,#000000)]">
           {/* Decorative Glow */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(234,179,8,0.15),transparent_10%)]" />
+          <div className="pointer-events-none" />
           {/* Content */}
           <div className="relative">
             {children}

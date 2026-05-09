@@ -2,9 +2,9 @@ import backendURL from '../constants/url-constants'
 
 export default function TradingCard({ card, onClick, displayMore = false }) {
  return (
-  <div className="group cursor-pointer relative" onClick={onClick}>
+  <div className={`group ${displayMore ? 'cursor-pointer' : ''} relative`} onClick={onClick}>
    {/* Card Container */}
-   <div className={`relative rounded-xl border-3 border-yellow-600/80 overflow-hidden transition-all duration-300 hover:border-yellow-500 ${displayMore ? 'hover:shadow-lg hover:shadow-yellow-500/20' : ''} bg-slate-900`}>
+   <div className={`relative rounded-xl border-3 border-yellow-600/80 overflow-hidden transition-all duration-300 hover:border-yellow-500 bg-slate-900`}>
     {/* Card Image */}
     <div className="relative w-full aspect-square overflow-hidden bg-slate-800">
      <img

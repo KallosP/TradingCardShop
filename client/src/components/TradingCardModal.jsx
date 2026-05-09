@@ -8,8 +8,8 @@ export default function TradingCardModal({ selectedCard, onClose }) {
       <div className="grid grid-cols-1 gap-6 p-4 pt-12 sm:grid-cols-2 sm:gap-8 sm:p-8 sm:pt-8 items-stretch">
         {/* Left Side - Trading Card */}
         <div className="flex flex-col items-center">
-          <div className="group relative w-full max-w-sm overflow-hidden rounded-2xl border-[3px] border-yellow-500 bg-slate-950 shadow-lg shadow-yellow-500/20 transition-transform duration-300 hover:scale-[1.02]">
-            <div className="relative rounded-2xl bg-slate-950 overflow-hidden">
+          <div className="group relative w-full max-w-sm overflow-hidden rounded-2xl border-[3px] border-yellow-500 bg-slate-950 card-float">
+            <div className="relative rounded-1xl bg-slate-950 overflow-hidden">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-yellow-500/20 bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-3">
                 <h2 className="line-clamp-1 text-lg font-bold tracking-wide text-yellow-400">
