@@ -33,7 +33,6 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
 
       getUserBalance() // Update user's balance after purchase
 
-      navigate('/my-cards') // Redirect to My Cards page after purchase
     } catch (err) {
       setPurchaseError(err.message)
     } finally {
@@ -44,6 +43,10 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
   function handleClose() {
     setPurchaseError(null);
     onClose();
+    // Refresh page after purchase to update listings (remove purchased card)
+    if(purchased){
+      window.location.reload();
+    }
   }
 
   return (
