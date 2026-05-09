@@ -3,6 +3,7 @@ import backendURL from '../constants/url-constants'
 import SubmitButton from './SubmitButton'
 import ImageUpload from './ImageUpload'
 import validateCardForm from '../utils/validateCardForm'
+import Modal from './Modal'
 
 export default function EditCardModal({ editingCard, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -71,76 +72,88 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
-      <div className="bg-slate-900 border border-yellow-600/30 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-slate-900 border-b border-yellow-600/20 px-4 sm:px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg sm:text-xl font-bold text-white">Edit Card</h2>
-          <button onClick={onClose} disabled={isSaving} className="text-gray-400 hover:text-white disabled:opacity-50 transition-colors">
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-3 sm:p-4">
+      {/* Wrapper */}
+      <Modal onClose={onClose} closeDisabled={isSaving}>
+        <form onSubmit={handleSubmit} className="relative p-4 pt-12 sm:p-8 sm:pt-8 space-y-5">
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-5">
-          <label className="block text-sm font-semibold text-gray-300 mb-3">Card Image <span className="text-red-500">*</span></label>
-          <ImageUpload
-            imagePreview={imagePreview}
-            onImageChange={handleImageChange}
-            onRemove={() => { setImagePreview(null); setImageFile(null) }}
-            isLoading={isSaving}
-            error={errors.image}
-          />
-            
-          {/* Title */}
+          {/* Image */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Title <span className="text-red-500">*</span></label>
-            <input type="text" name="title" value={formData.title} onChange={handleInputChange} disabled={isSaving}
-              className="w-full bg-slate-800 border border-yellow-600/30 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50" />
-            {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
-            <p className="text-gray-500 text-xs mt-1">{formData.title.length}/100</p>
+            <label className="block text-xs font-bold uppercase tracking-wider text-yellow-500 mb-3">
+              Card Image
+            </label>
+            <ImageUpload
+              imagePreview={imagePreview}
+              onImageChange={handleImageChange}
+              onRemove={() => { setImagePreview(null); setImageFile(null) }}
+              isLoading={isSaving}
+              error={errors.image}
+            />
+          </div>
+
+          {/* Title */}
+          <div className="rounded-xl border border-yellow-500/10 bg-slate-900/70 p-5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-yellow-500 mb-3">
+              Title
+            </label>
+            <input
+              type="text" name="title" value={formData.title}
+              onChange={handleInputChange} disabled={isSaving}
+              className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
+            />
+            {errors.title && <p className="text-red-500 text-xs mt-2">{errors.title}</p>}
+            <p className="text-gray-500 text-xs mt-2">{formData.title.length}/100</p>
           </div>
 
           {/* Description */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Description <span className="text-red-500">*</span></label>
-            <textarea name="description" value={formData.description} onChange={handleInputChange} disabled={isSaving} rows="4"
-              className="w-full bg-slate-800 border border-yellow-600/30 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50 resize-none" />
-            {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
-            <p className="text-gray-500 text-xs mt-1">{formData.description.length}/500</p>
+          <div className="rounded-xl border border-yellow-500/10 bg-slate-900/70 p-5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-yellow-500 mb-3">
+              Description
+            </label>
+            <textarea
+              name="description" value={formData.description}
+              onChange={handleInputChange} disabled={isSaving} rows="4"
+              className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50 resize-none"
+            />
+            {errors.description && <p className="text-red-500 text-xs mt-2">{errors.description}</p>}
+            <p className="text-gray-500 text-xs mt-2">{formData.description.length}/500</p>
           </div>
 
           {/* Price */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) <span className="text-red-500">*</span></label>
+          <div className="rounded-xl border border-yellow-500/10 bg-slate-900/70 p-5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-yellow-500 mb-3">
+              Price (USD)
+            </label>
             <div className="relative">
               <span className="absolute left-3 top-2 text-gray-400 text-sm font-semibold">$</span>
-              <input type="number" name="price" value={formData.price} onChange={handleInputChange} disabled={isSaving}
+              <input
+                type="number" name="price" value={formData.price}
+                onChange={handleInputChange} disabled={isSaving}
                 placeholder="0.00" step="0.01" min="0"
-                className="w-full bg-slate-800 border border-yellow-600/30 rounded-lg pl-6 pr-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50" />
+                className="w-full bg-slate-800/80 border border-yellow-500/20 rounded-lg pl-6 pr-3 py-2 text-sm text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors disabled:opacity-50"
+              />
             </div>
-            {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
+            {errors.price && <p className="text-red-500 text-xs mt-2">{errors.price}</p>}
           </div>
 
           {/* Submit error */}
           {errors.submit && (
-            <div className="bg-red-600/20 border border-red-600/40 rounded-lg p-3">
+            <div className="bg-red-600/20 border border-red-600/40 rounded-xl p-4">
               <p className="text-red-400 text-xs">{errors.submit}</p>
             </div>
           )}
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <SubmitButton isLoading={isSaving} fullWidth={false} loadingLabel="Saving..." label="Save Changes" />
-            <button type="button" onClick={onClose} disabled={isSaving}
-              className="flex-1 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-800/50 text-white font-bold py-2.5 px-4 rounded-lg transition-colors disabled:cursor-not-allowed text-sm sm:text-base">
+            <button
+              type="button" onClick={onClose} disabled={isSaving}
+              className="flex-1 bg-slate-800/80 hover:bg-slate-700 disabled:opacity-50 text-white font-bold py-2.5 px-4 rounded-lg border border-yellow-500/10 transition-colors disabled:cursor-not-allowed text-sm sm:text-base">
               Cancel
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </Modal>
+  </div>
   )
 }
