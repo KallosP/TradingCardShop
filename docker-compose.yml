@@ -13,6 +13,8 @@ services:
       - "5050:5050"
     networks:
       - tcs-network
+    volumes:
+      - ./server/uploads:/app/uploads
     depends_on:
       - db
   db:
