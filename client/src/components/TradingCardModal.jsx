@@ -20,7 +20,9 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
     try {
       const response = await fetch(`${backendURL}/cards/${selectedCard._id}/buy`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        // Include price in request body for validation/prevent stale data issues on server side
+        body: JSON.stringify({ price: selectedCard.price }) 
       })
 
       const data = await response.json()

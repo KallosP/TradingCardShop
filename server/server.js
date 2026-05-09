@@ -4,13 +4,10 @@ import cors from "cors";
 import { loginUser, registerUser, authenticateUser } from "./auth.js";
 import mongoose from "mongoose";
 import cardService from "./services/card-service.js";
+import userService from "./services/user-service.js";
 import dotenv from "dotenv";
 import path from 'path'
 import multer from 'multer'
-
-// TODO: remove and separate into cardservice
-import Card from "./models/trading_card.js";
-import User from "./models/user.js";
 
 dotenv.config({ path: "./config.env" });
 
@@ -116,57 +113,61 @@ app.delete("/cards/:cardId", authenticateUser, async (req, res) => {
 })
 // Purchase a card
 app.post('/cards/:cardId/buy', authenticateUser, async (req, res) => {
-  const card = await Card.findById(req.params.cardId)
-  
-  if (!card) return res.status(404).json({ message: 'Card not found' })
-  if (card.status === 'sold') return res.status(400).json({ message: 'Card already sold' })
-  if (card.ownerId.toString() === req.user.userId) return res.status(400).json({ message: 'Cannot buy your own card' })
+  try {
+    const card = await cardService.findCardById(req.params.cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' })
+    if (card.status === 'sold') return res.status(400).json({ message: 'Card already sold' })
+    if (card.ownerId.toString() === req.user.userId) return res.status(400).json({ message: 'Cannot buy your own card' })
+    // Ensure client-provided price matches server price to prevent mismatches due to stale data on client side
+    if (req.body.price !== card.price) return res.status(400).json({ message: 'Price mismatch, please refresh the page' }) 
 
-  const buyer = await User.findById(req.user.userId)
-  const seller = await User.findById(card.ownerId)
+    const buyer = await userService.findUserById(req.user.userId);
+    const seller = await userService.findUserById(card.ownerId);
 
-  if (buyer.balance < card.price) return res.status(400).json({ message: 'Insufficient balance' })
+    if (buyer.balance < card.price) return res.status(400).json({ message: 'Insufficient balance' })
 
-  // Update necessary fields for buyer, seller, and card
-  buyer.balance -= card.price
-  seller.balance += card.price
-  card.status = 'sold'
-  card.purchasedBy = req.user.userId
+    await userService.transferBalance(buyer, seller, card.price);
+    await cardService.purchaseCard(card, req.user.userId);
 
-  // Save updates
-  await buyer.save()
-  await seller.save()
-  await card.save()
+    res.status(200).json({ message: 'Purchase successful', balance: buyer.balance })
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
 
-  res.status(200).json({ message: 'Purchase successful', balance: buyer.balance })
-})
-// Retrieve user balance
+app.patch('/cards/:cardId/relist', authenticateUser, async (req, res) => {
+  try {
+    const card = await cardService.findCardById(req.params.cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' })
+    if (card.purchasedBy?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
+    const relistedCard = await cardService.relistCard(card, req.user.userId);
+    res.status(200).json(relistedCard);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
 app.get('/users/me/balance', authenticateUser, async (req, res) => {
-  const user = await User.findById(req.user.userId)
-  res.json({ balance: user.balance })
-})
-// Update user balance
+  try {
+    const balance = await userService.getBalance(req.user.userId);
+    res.status(200).json({ balance });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
 app.patch('/users/me/balance', authenticateUser, async (req, res) => {
-  const user = await User.findById(req.user.userId)
-  user.balance = req.body.balance
-  await user.save()
-  res.json({ balance: user.balance })
-})
-// Relist a card the user has purchased (move from collection back to marketplace)
-app.patch('/cards/:id/relist', authenticateUser, async (req, res) => {
-  const card = await Card.findById(req.params.id)
-
-  if (!card) return res.status(404).json({ message: 'Card not found' })
-  if (card.purchasedBy?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
-
-  card.status = 'market'
-  card.purchasedBy = null
-  card.ownerId = req.user.userId
-
-  await card.save()
-  res.json(card)
-})
-
+  try {
+    const user = await userService.updateBalance(req.user.userId, req.body.balance);
+    res.status(200).json({ balance: user.balance });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
 
 // start the Express server
 app.listen(PORT, () => {

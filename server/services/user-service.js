@@ -11,7 +11,34 @@ function addUser(username, email, hashedPassword) {
 	return promise;
 }
 
+function findUserById(userId) {
+  return userModel.findById(userId);
+}
+
+async function transferBalance(buyer, seller, amount) {
+  buyer.balance -= amount;
+  seller.balance += amount;
+  await buyer.save();
+  await seller.save();
+}
+
+async function updateBalance(userId, newBalance) {
+  const user = await userModel.findById(userId);
+  user.balance = newBalance;
+  return user.save();
+}
+
+async function getBalance(userId) {
+  const user = await userModel.findById(userId);
+  return user.balance;
+}
+
+
 export default {
     findUser,
-	addUser
+	addUser,
+	findUserById,
+	transferBalance,
+	updateBalance,
+	getBalance
 };
