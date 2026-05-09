@@ -129,7 +129,8 @@ export default function LoginPage() {
     JSON.stringify({
      id: payload.userId,
      email: payload.email,
-     name: payload.username
+     name: payload.username,
+     balance: payload.balance
     })
    )
 

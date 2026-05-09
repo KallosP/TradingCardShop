@@ -15,15 +15,15 @@ export default function MarketplacePage() {
  const token = localStorage.getItem('token')
  const user = JSON.parse(localStorage.getItem('user'))
 
- // TODO:  use volumes to have image URLs persist in docker? (they are deleted on every rerun,
- // but kept in the database which causes invalid url paths)
-
  // Fetch cards from backend - placeholder function
  useEffect(() => {
   const fetchCards = async () => {
    try {
     setIsLoading(true)
-    const response = await fetch(`${backendURL}/cards`)
+    const response = await fetch(`${backendURL}/cards`, {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET'
+    })
     if (!response.ok) {
      throw new Error('Failed to fetch cards')
     }
@@ -73,7 +73,11 @@ export default function MarketplacePage() {
    </div>
 
    {/* Card Modal */}
-   <TradingCardModal selectedCard={selectedCard} onClose={() => setSelectedCard(null)} />
+   <TradingCardModal 
+    selectedCard={selectedCard} 
+    onClose={() => setSelectedCard(null)}
+    userId = {user.id}   
+    />
   </div>
  )
 }

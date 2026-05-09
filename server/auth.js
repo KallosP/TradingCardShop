@@ -41,7 +41,8 @@ export function registerUser(req, res) {
 					token: token,
 					userId: newUser._id,
 					username: newUser.username,
-					email: newUser.email
+					email: newUser.email,
+					balance: newUser.balance
 				});
 				});
 			});
@@ -88,7 +89,8 @@ export function loginUser(req, res) {
 								// User's token and their credentials ID
 								res.status(200).send({
                                     token: token, userId: retrievedUser._id, 
-                                    username: retrievedUser.username, email: retrievedUser.email
+                                    username: retrievedUser.username, email: retrievedUser.email,
+									balance: retrievedUser.balance
                                 });
 							});
 						} else {

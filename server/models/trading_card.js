@@ -27,6 +27,16 @@ const TradingCardSchema = new mongoose.Schema(
             ref: "User", // allows for referencing User data (like username)
             required: true,
         },
+        status: {
+            type: String,
+            enum: ["market", "sold"],
+            default: "market",
+        },
+        purchasedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: null 
+        }
 	},
 	{collection: "trading_card"}
 );

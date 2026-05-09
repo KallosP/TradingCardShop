@@ -1,3 +1,4 @@
+import { get } from "mongoose";
 import cardModel from "../models/trading_card.js";
 
 function addCard(cardData) {
@@ -6,13 +7,22 @@ function addCard(cardData) {
 	return promise;
 }
 
-function getAllCards() {
+function getAllCards(userId) {
 	// return card data with User schema's data included (specifying only username to be returned)
-	return cardModel.find().populate("ownerId", "username");
+	return cardModel.find({
+		status: "market",
+		ownerId: { $ne: userId }
+	}).populate("ownerId", "username");
 }
 
-function getCardsByUserId(userId) {
-	return cardModel.find({ ownerId: userId }).populate("ownerId", "username");
+// Get cards the user has created and listed on the marketplace
+function getUserCardListings(userId) {
+	return cardModel.find({ ownerId: userId, status: "market" }).populate("ownerId", "username");
+}
+
+// Get cards the user owns/has purchased
+function getUserCardCollection(userId) {
+	return cardModel.find({ purchasedBy: userId }).populate("ownerId", "username");
 }
 
 function updateCard(cardId, cardUpdates){
@@ -27,7 +37,8 @@ function deleteCard(cardId) {
 export default {
 	addCard,
 	getAllCards,
-	getCardsByUserId,
+	getUserCardListings,
+	getUserCardCollection,
 	updateCard,
 	deleteCard
 };

@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import HamburgerIcon from '../assets/HamburgerIcon'
+import { useEffect } from 'react'
+import backendURL from '../constants/url-constants'
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -8,6 +10,19 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const user = JSON.parse(localStorage.getItem('user'))
   const profileIconLetter = user.name[0].toUpperCase()
+  const [balance, setBalance] = useState(user.balance || '0')
+
+
+  // Listen for and handle balance update
+  useEffect(() => {
+    console.log("entered navbar useEffect, current balance:", balance)
+    const handleBalanceUpdate = () => {
+      const updatedUser = JSON.parse(localStorage.getItem('user'))
+      setBalance(updatedUser.balance)
+    }
+    window.addEventListener('balanceUpdated', handleBalanceUpdate)
+    return () => window.removeEventListener('balanceUpdated', handleBalanceUpdate)
+  }, [])
 
   const handleLogout = () => {
     localStorage.removeItem('user')
@@ -48,6 +63,10 @@ export default function Navbar() {
 
         {/* Right Side */}
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* Balance */}
+          <div className="hidden md:flex rounded-full border border-yellow-500/20 bg-yellow-500/10 px-4 py-2 text-sm font-semibold text-yellow-400">
+            ${parseFloat(balance).toFixed(2)}
+          </div>
           {/* Avatar - Desktop only */}
           <div className="relative hidden md:block">
             <button
@@ -90,6 +109,11 @@ export default function Navbar() {
             <NavLink to="/marketplace" className={mobileNavLinkClass} onClick={() => setShowMobileMenu(false)}>Marketplace</NavLink>
             <NavLink to="/my-cards" className={mobileNavLinkClass} onClick={() => setShowMobileMenu(false)}>My Cards</NavLink>
             <NavLink to="/create-card" className={mobileNavLinkClass} onClick={() => setShowMobileMenu(false)}>Create</NavLink>
+
+            {/* Balance */}
+            <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/10 px-4 py-3 text-sm font-semibold text-yellow-400">
+              Balance: ${parseFloat(balance).toFixed(2)}
+            </div>
 
             <button
               onClick={handleLogout}

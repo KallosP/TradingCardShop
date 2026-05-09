@@ -16,6 +16,11 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true
+        },
+        balance: {
+            type: Number,
+            required: true,
+            default: 100.00
         }
 	},
 	{collection: "user"}
