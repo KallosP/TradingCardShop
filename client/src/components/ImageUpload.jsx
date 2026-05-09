@@ -21,7 +21,7 @@ export default function ImageUpload({ imagePreview, onImageChange, onRemove, isL
   }
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       {imagePreview ? (
         <div className="relative">
           <img
@@ -44,7 +44,7 @@ export default function ImageUpload({ imagePreview, onImageChange, onRemove, isL
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className="block border-2 border-dashed border-yellow-600/40 rounded-lg p-8 text-center cursor-pointer hover:border-yellow-500 hover:bg-yellow-500/5 transition-all duration-200"
+          className="h-full w-full flex flex-col items-center justify-center aspect-square border-2 border-dashed border-yellow-600/40 rounded-lg p-8 text-center cursor-pointer hover:border-yellow-500 hover:bg-yellow-500/5 transition-all duration-200"
         >
           <ImageIcon />
           <p className="text-gray-300 font-medium mb-1">Click or drop an image here</p>
