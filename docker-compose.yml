@@ -17,6 +17,7 @@ services:
       - ./server/uploads:/app/uploads
     depends_on:
       - db
+    command: sh -c "npm run seed && node server.js"
   db:
     image: mongo:latest
     ports:

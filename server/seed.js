@@ -9,8 +9,14 @@ const seed = async () => {
   await mongoose.connect(process.env.ATLAS_URI, { dbName: "tcs" })
   console.log('Connected to MongoDB')
 
+  const existingUsers = await User.countDocuments()
+  if (existingUsers > 0) {
+    console.log('Database already seeded, skipping...')
+    await mongoose.disconnect()
+    return
+  }
+
   const deletedUsers = await User.deleteMany({})
-  console.log('Deleted users:', deletedUsers.deletedCount)
   await Card.deleteMany({})
 
   const hashedPassword = await bcrypt.hash('password123', 10)
@@ -53,6 +59,7 @@ const cards = await Card.create([
     { title: 'Galactus', description: 'An entity older than the current universe itself. Galactus consumes entire planets to sustain his existence and is regarded as a force of nature rather than a villain.', price: 149.99, imageUrl: '/uploads/card24.jpg', ownerId: hannah._id, status: 'market' },
   ])
 
+  console.log('Created users:', 8)
   console.log('Created cards:', cards.length)
   console.log('Seeded successfully')
   await mongoose.disconnect()
