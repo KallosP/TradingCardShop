@@ -6,6 +6,7 @@ import TradingCard from '../components/TradingCard'
 import LoadingState from '../components/LoadingState'
 import TrashIcon from '../assets/TrashIcon'
 import EditIcon from '../assets/EditIcon'
+import RemoveIcon from '../assets/RemoveIcon'
 
 export default function MyCardsPage() {
   const [listings, setListings] = useState([])
@@ -71,6 +72,22 @@ export default function MyCardsPage() {
     }
   }
 
+  const handleDelist = async (cardId) => {
+    try {
+      const response = await fetch(`${backendURL}/cards/${cardId}/delist`, {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'PATCH'
+      })
+      if (!response.ok) throw new Error('Failed to delist card')
+      const delistedCard = await response.json()
+      // Remove the delisted card from listings
+      setListings((prev) => prev.filter((c) => c._id !== cardId))
+      setCollection((prev) => [...prev, delistedCard])
+    } catch (err) {
+      alert('Something went wrong delisting your card.')
+    }
+  }
+
   const tabClass = (tab) =>
     `px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
       activeTab === tab
@@ -122,6 +139,12 @@ export default function MyCardsPage() {
                         className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-yellow-600/20 px-3 py-2 text-sm font-medium text-yellow-400 hover:bg-yellow-600/30 transition-colors">
                         <EditIcon />
                         Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelist(card._id)}
+                        className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-slate-700/40 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-slate-700/60 hover:text-slate-300 transition-colors">
+                        <RemoveIcon />
+                        Delist
                       </button>
                       <button
                         onClick={() => handleDelete(card._id)}

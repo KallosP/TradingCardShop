@@ -12,7 +12,6 @@ export default function Navbar() {
   const profileIconLetter = user.name[0].toUpperCase()
   const [balance, setBalance] = useState(user.balance || '0')
 
-
   // Listen for and handle balance update
   useEffect(() => {
     console.log("entered navbar useEffect, current balance:", balance)

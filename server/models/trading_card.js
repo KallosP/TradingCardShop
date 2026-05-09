@@ -29,13 +29,8 @@ const TradingCardSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["market", "sold"],
+            enum: ["market", "offmarket"],
             default: "market",
-        },
-        purchasedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            default: null 
         }
 	},
 	{collection: "trading_card"}

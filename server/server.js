@@ -63,7 +63,7 @@ app.post("/cards", authenticateUser, upload.single('image'), (req, res) => {
 // Get all cards in database
 app.get("/cards", authenticateUser, async (req, res) => {
   try{
-    const cards = await cardService.getAllCards(req.user.userId);
+    const cards = await cardService.getAllCardsOnMarket(req.user.userId);
     res.status(200).json(cards);
   } catch (err) {
     console.error(err);
@@ -85,6 +85,7 @@ app.get("/cards/me", authenticateUser, async (req, res) => {
 // Update a card with corresponding ID
 app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, res) => {
   try{
+    // TODO: add check to ensure requestor's ID matches card ownerId
     const {cardId} = req.params; 
     const cardUpdates = {
       ...req.body,
@@ -103,6 +104,8 @@ app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, 
 // Delete a card with corresponding ID
 app.delete("/cards/:cardId", authenticateUser, async (req, res) => {
   try{
+
+    // TODO: add check to ensure requestor's ID matches card ownerId
     const {cardId} = req.params; 
     await cardService.deleteCard(cardId);
     res.status(200).send();
@@ -116,12 +119,14 @@ app.post('/cards/:cardId/buy', authenticateUser, async (req, res) => {
   try {
     const card = await cardService.findCardById(req.params.cardId);
     if (!card) return res.status(404).json({ message: 'Card not found' })
-    if (card.status === 'sold') return res.status(400).json({ message: 'Card already sold, please refresh for up-to-date listings' })
+    if (card.status === 'offmarket') return res.status(400).json({ message: 'Card is no longer on the market, please refresh for up-to-date listings' })
     if (card.ownerId.toString() === req.user.userId) return res.status(400).json({ message: 'Cannot buy your own card' })
     // Ensure client-provided price matches server price to prevent mismatches due to stale data on client side
     if (req.body.price !== card.price) return res.status(400).json({ message: 'Price mismatch, please refresh the page' }) 
 
+    // Buyer info is coming from the authenticated user making the purchase request
     const buyer = await userService.findUserById(req.user.userId);
+    // Seller info is coming from the card that is to be purchased 
     const seller = await userService.findUserById(card.ownerId);
 
     if (buyer.balance < card.price) return res.status(400).json({ message: 'Insufficient balance' })
@@ -135,20 +140,35 @@ app.post('/cards/:cardId/buy', authenticateUser, async (req, res) => {
     res.status(500).send();
   }
 });
-
+// Relist a card from user's collection back to marketplace
 app.patch('/cards/:cardId/relist', authenticateUser, async (req, res) => {
   try {
     const card = await cardService.findCardById(req.params.cardId);
     if (!card) return res.status(404).json({ message: 'Card not found' })
-    if (card.purchasedBy?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
-    const relistedCard = await cardService.relistCard(card, req.user.userId);
+    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
+    const relistedCard = await cardService.relistCard(card);
     res.status(200).json(relistedCard);
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
 });
-
+// Delist a card from user's listings (mark as offmarket without buyer)
+app.patch('/cards/:cardId/delist', authenticateUser, async (req, res) => {
+  try {
+    const card = await cardService.findCardById(req.params.cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' })
+    // Make sure the owner of the card is deslisting it
+    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
+    // Delist the card by changing status back to 'offmarket'
+    const delistedCard = await cardService.delistCard(card);
+    res.status(200).json(delistedCard);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+})
+// Get current user's balance
 app.get('/users/me/balance', authenticateUser, async (req, res) => {
   try {
     const balance = await userService.getBalance(req.user.userId);
@@ -159,7 +179,7 @@ app.get('/users/me/balance', authenticateUser, async (req, res) => {
   }
 });
 
-app.patch('/users/me/balance', authenticateUser, async (req, res) => {
+/*app.patch('/users/me/balance', authenticateUser, async (req, res) => {
   try {
     const user = await userService.updateBalance(req.user.userId, req.body.balance);
     res.status(200).json({ balance: user.balance });
@@ -167,7 +187,7 @@ app.patch('/users/me/balance', authenticateUser, async (req, res) => {
     console.error(err);
     res.status(500).send();
   }
-});
+});*/
 
 // start the Express server
 app.listen(PORT, () => {
