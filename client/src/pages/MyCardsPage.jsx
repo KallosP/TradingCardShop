@@ -49,10 +49,13 @@ export default function MyCardsPage() {
         headers: { Authorization: `Bearer ${token}` },
         method: 'DELETE'
       })
-      if (!response.ok) throw new Error('Failed to delete card')
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.message || 'Failed to delete card')
+      }
       setListings((prev) => prev.filter((card) => card._id !== cardId))
     } catch (err) {
-      alert('Something went wrong deleting your card: ', err)
+      alert(err)
     }
   }
 
@@ -78,13 +81,16 @@ export default function MyCardsPage() {
         headers: { Authorization: `Bearer ${token}` },
         method: 'PATCH'
       })
-      if (!response.ok) throw new Error('Failed to delist card')
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.message || 'Failed to delist card')
+      }
       const delistedCard = await response.json()
       // Remove the delisted card from listings
       setListings((prev) => prev.filter((c) => c._id !== cardId))
       setCollection((prev) => [...prev, delistedCard])
     } catch (err) {
-      alert('Something went wrong delisting your card.')
+      alert(err)
     }
   }
 

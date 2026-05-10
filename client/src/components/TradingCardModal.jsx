@@ -95,14 +95,16 @@ export default function TradingCardModal({ selectedCard, onClose, userId, onPurc
             </div>
           </div>
 
+        {purchaseError && (
+          <div className="rounded-xl border border-red-600/40 bg-red-600/20 px-4 py-3">
+            <p className="text-red-400 text-xs text-center">{purchaseError}</p>
+          </div>
+        )}
+
         {/* Price + Buy */}
         {!isOwnCard && (
           <div className="flex flex-col gap-2">
-            {purchaseError && (
-              <div className="rounded-xl border border-red-600/40 bg-red-600/20 px-4 py-3">
-                <p className="text-red-400 text-xs text-center">{purchaseError}</p>
-              </div>
-            )}
+
             {purchased ? (
               <div className="rounded-xl border border-green-500/40 bg-green-500/10 px-6 py-4 text-center">
                 <p className="text-green-400 font-semibold">Purchase Successful!</p>

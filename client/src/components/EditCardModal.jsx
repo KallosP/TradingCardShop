@@ -58,15 +58,18 @@ export default function EditCardModal({ editingCard, onClose, onSave }) {
         method: 'PUT',
         body: formDataToSend
       })
-
-      if (!response.ok) throw new Error('Failed to update card')
+      
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.message || 'Failed to update card')
+      }
 
       const updatedCard = await response.json()
       onSave(updatedCard)
       onClose()
-    } catch (error) {
-      console.error('Error updating card:', error)
-      setErrors({ submit: 'Failed to save changes. Please try again.' })
+    } catch (err) {
+      console.log("errror", err)
+      setErrors({ submit: err.message || 'Failed to save changes. Please try again.' })
     } finally {
       setIsSaving(false)
     }

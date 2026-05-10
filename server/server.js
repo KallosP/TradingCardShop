@@ -85,8 +85,9 @@ app.get("/cards/me", authenticateUser, async (req, res) => {
 // Update a card with corresponding ID
 app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, res) => {
   try{
-    // TODO: add check to ensure requestor's ID matches card ownerId
-    const {cardId} = req.params; 
+    const card = await cardService.findCardById(req.params.cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' })
+    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized, someone else now owns this card. Please refresh the page.' })
     const cardUpdates = {
       ...req.body,
     };
@@ -94,7 +95,7 @@ app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, 
     if (req.file) {
       cardUpdates.imageUrl = `/uploads/${req.file.filename}`;
     }
-    const updatedCard = await cardService.updateCard(cardId, cardUpdates);
+    const updatedCard = await cardService.updateCard(card._id, cardUpdates);
     res.status(200).json(updatedCard);
   } catch (err) {
     console.error(err);
@@ -104,10 +105,10 @@ app.put("/cards/:cardId", authenticateUser, upload.single('image'), async (req, 
 // Delete a card with corresponding ID
 app.delete("/cards/:cardId", authenticateUser, async (req, res) => {
   try{
-
-    // TODO: add check to ensure requestor's ID matches card ownerId
-    const {cardId} = req.params; 
-    await cardService.deleteCard(cardId);
+    const card = await cardService.findCardById(req.params.cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' })
+    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized, someone else now owns this card. Please refresh the page.' })
+    await cardService.deleteCard(card._id);
     res.status(200).send();
   } catch (err) {
     console.error(err);
@@ -158,8 +159,8 @@ app.patch('/cards/:cardId/delist', authenticateUser, async (req, res) => {
   try {
     const card = await cardService.findCardById(req.params.cardId);
     if (!card) return res.status(404).json({ message: 'Card not found' })
-    // Make sure the owner of the card is deslisting it
-    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized' })
+    // Make sure the owner of the card is delisting it
+    if (card.ownerId?.toString() !== req.user.userId) return res.status(403).json({ message: 'Not authorized, someone else now owns this card. Please refresh the page.' })
     // Delist the card by changing status back to 'offmarket'
     const delistedCard = await cardService.delistCard(card);
     res.status(200).json(delistedCard);
