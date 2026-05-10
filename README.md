@@ -61,6 +61,9 @@ To stop the app/all running containers, run: `docker compose down`
 
 ## Other
 
+### Trello Board
+https://trello.com/b/4q7MuICf/trading-card-shop
+
 ### ERD
 <img width="279" height="610" alt="Screenshot 2026-05-10 084024" src="https://github.com/user-attachments/assets/83ca6da1-329a-4739-ab3f-a7854fbf5835" />
 
