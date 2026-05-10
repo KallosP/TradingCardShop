@@ -14,7 +14,6 @@ export default function Navbar() {
 
   // Listen for and handle balance update
   useEffect(() => {
-    console.log("entered navbar useEffect, current balance:", balance)
     const handleBalanceUpdate = () => {
       const updatedUser = JSON.parse(localStorage.getItem('user'))
       setBalance(updatedUser.balance)

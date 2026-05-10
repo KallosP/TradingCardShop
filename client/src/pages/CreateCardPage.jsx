@@ -87,7 +87,6 @@ export default function CreateCardPage() {
    
     if (!response.ok) throw new Error('Failed to create card')
 
-   console.log('Card published:', formData)
    navigate('/marketplace')
   } catch (error) {
    console.error('Error publishing card:', error)

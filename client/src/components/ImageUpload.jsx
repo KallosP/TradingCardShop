@@ -1,4 +1,3 @@
-// components/ImageUpload.jsx
 import TrashIcon from '../assets/TrashIcon'
 import ImageIcon from '../assets/ImageIcon'
 
