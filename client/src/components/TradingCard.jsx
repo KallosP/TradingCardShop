@@ -37,7 +37,7 @@ export default function TradingCard({ card, onClick, displayMore = false }) {
       </div>
 
       <div className="min-w-0 flex-1">
-       <p className="text-gray-500 text-xs">by {card.ownerId.username}</p>
+       <p className="text-gray-500 text-xs">{card.ownerId.username}</p>
       </div>
      </div>
     )}
