@@ -65,7 +65,9 @@ To stop the app/all running containers, run: `docker compose down`
 https://trello.com/b/4q7MuICf/trading-card-shop
 
 ### ERD
-<img width="279" height="610" alt="Screenshot 2026-05-10 084024" src="https://github.com/user-attachments/assets/83ca6da1-329a-4739-ab3f-a7854fbf5835" />
+<img width="478" height="698" alt="Screenshot 2026-05-10 113852" src="https://github.com/user-attachments/assets/be09bab3-9019-4110-955c-e85994777741" />
+
+
 
 ### Sequence Diagram
 <img width="833" height="719" alt="Screenshot 2026-05-10 083939" src="https://github.com/user-attachments/assets/67dc49f4-0fc5-4a4d-893b-44e768835b7c" />
