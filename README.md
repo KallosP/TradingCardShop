@@ -56,3 +56,14 @@ To stop the app/all running containers, run: `docker compose down`
 - The database is seeded with 8 demo users, each with 3 trading cards listed on the marketplace (24 cards total). All demo accounts use the password `password123`. Emails for each user can be found in `server/seed.js`
 - Ensure `config.env` is correctly set or the backend will not start
 - Docker Compose is configured to handle networking between services automatically
+
+---
+
+## Other
+
+### ERD
+<img width="279" height="610" alt="Screenshot 2026-05-10 084024" src="https://github.com/user-attachments/assets/83ca6da1-329a-4739-ab3f-a7854fbf5835" />
+
+### Sequence Diagram
+<img width="833" height="719" alt="Screenshot 2026-05-10 083939" src="https://github.com/user-attachments/assets/67dc49f4-0fc5-4a4d-893b-44e768835b7c" />
+
