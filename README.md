@@ -70,5 +70,5 @@ https://trello.com/b/4q7MuICf/trading-card-shop
 
 
 ### Sequence Diagram
-<img width="833" height="719" alt="Screenshot 2026-05-10 083939" src="https://github.com/user-attachments/assets/67dc49f4-0fc5-4a4d-893b-44e768835b7c" />
+<img width="737" height="629" alt="Screenshot 2026-05-10 114757" src="https://github.com/user-attachments/assets/7bc5f285-4962-49f4-8df0-9eeff4206b71" />
 
